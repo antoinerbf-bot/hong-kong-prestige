@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/i18n";
+import { ThemeProvider } from "../lib/theme";
 import { SiteShell } from "../components/SiteShell";
 
 function NotFoundComponent() {
@@ -104,23 +105,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_HK" },
       { name: "twitter:card", content: "summary_large_image" },
-      {
-        name: "twitter:title",
-        content: "HK Concierge & Bridge — Premium Concierge & Security in Hong Kong",
-      },
-      {
-        name: "twitter:description",
-        content:
-          "Premium concierge, relocation, lifestyle support and SGSIA-licensed close protection for expatriates in Hong Kong.",
-      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      {
-        rel: "preconnect",
-        href: "https://fonts.googleapis.com",
-      },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
         rel: "preconnect",
         href: "https://fonts.gstatic.com",
@@ -140,9 +129,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('hkcb-theme');if(t==='light'){document.documentElement.classList.add('light');document.documentElement.classList.remove('dark');}else{document.documentElement.classList.add('dark');document.documentElement.classList.remove('light');}}catch(e){}})();`,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -157,11 +151,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <SiteShell>
-          <Outlet />
-        </SiteShell>
-      </LanguageProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <SiteShell>
+            <Outlet />
+          </SiteShell>
+        </LanguageProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

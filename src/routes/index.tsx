@@ -3,7 +3,7 @@ import { Shield, Eye, Languages, Users, ArrowRight, ChevronDown } from "lucide-r
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services, featuredSlugs, CONTACT } from "@/lib/services";
 import { Reveal } from "@/components/Reveal";
-import heroImg from "@/assets/hero-hk.jpg";
+import { HeroShowcase } from "@/components/HeroShowcase";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -50,38 +50,30 @@ function Index() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Hero — cinematic multi-service sequence */}
       <section className="relative flex min-h-[92vh] items-end overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={heroImg}
-            alt="Hong Kong skyline at dusk"
-            className="ken-burns h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent" />
-        </div>
+        <HeroShowcase />
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-32 sm:px-8 sm:pb-28">
-          <p className="eyebrow mb-6">{t("hero.eyebrow")}</p>
-          <h1 className="font-display max-w-3xl text-4xl leading-[1.1] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-            <span className="block">{t("hero.title.a")}</span>
-            <span className="gold-text block">{t("hero.title.b")}</span>
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-24 pt-28 sm:px-8 sm:pb-28 sm:pt-32">
+          <p className="eyebrow mb-5 sm:mb-6">{t("hero.eyebrow")}</p>
+          <h1 className="font-display max-w-3xl text-[2.15rem] leading-[1.15] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-[4.25rem] lg:leading-[1.08]">
+            <span className="block overflow-visible">{t("hero.title.a")}</span>
+            <span className="gold-text mt-1 block overflow-visible">{t("hero.title.b")}</span>
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/80 sm:text-lg">
+          <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-foreground/85 sm:mt-6 sm:text-lg">
             {t("hero.subtitle")}
           </p>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10 sm:gap-4">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-champagne px-6 py-3.5 text-sm font-medium tracking-wide text-primary-foreground transition hover:bg-champagne-soft"
+              className="inline-flex items-center gap-2 rounded-full bg-champagne px-5 py-3 text-sm font-medium tracking-wide text-primary-foreground transition hover:bg-champagne-soft sm:px-6 sm:py-3.5"
             >
               {t("hero.cta.primary")}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium tracking-wide text-foreground transition hover:border-champagne/50 hover:text-champagne"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium tracking-wide text-foreground transition hover:border-champagne/50 hover:text-champagne sm:px-6 sm:py-3.5"
             >
               {t("hero.cta.secondary")}
             </Link>
@@ -89,7 +81,7 @@ function Index() {
 
           <a
             href="#trust"
-            className="mt-16 inline-flex items-center gap-2 text-xs tracking-[0.25em] text-muted-foreground uppercase transition hover:text-champagne"
+            className="mt-12 inline-flex items-center gap-2 text-xs tracking-[0.25em] text-muted-foreground uppercase transition hover:text-champagne sm:mt-16"
           >
             {t("hero.scroll")}
             <ChevronDown className="h-3.5 w-3.5" />
@@ -101,8 +93,8 @@ function Index() {
       <section id="trust" className="border-y border-border bg-card/40">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px md:grid-cols-4">
           {trust.map((item, i) => (
-            <Reveal key={item.title} delay={i * 80} className="px-5 py-10 sm:px-8">
-              <item.icon className="mb-4 h-5 w-5 text-champagne" strokeWidth={1.4} />
+            <Reveal key={item.title} delay={i * 80} className="px-4 py-8 sm:px-8 sm:py-10">
+              <item.icon className="mb-3 h-5 w-5 text-champagne sm:mb-4" strokeWidth={1.4} />
               <h3 className="text-sm font-medium tracking-wide text-foreground">{item.title}</h3>
               <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{item.desc}</p>
             </Reveal>
@@ -111,10 +103,10 @@ function Index() {
       </section>
 
       {/* Services overview */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-28">
         <Reveal>
           <p className="eyebrow">{t("services.eyebrow")}</p>
-          <h2 className="font-display mt-3 max-w-2xl text-3xl tracking-tight sm:text-4xl md:text-5xl">
+          <h2 className="font-display mt-3 max-w-2xl text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl">
             {t("services.title")}
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -122,7 +114,7 @@ function Index() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-12 grid gap-5 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {services.map((s, i) => (
             <Reveal key={s.slug} delay={i * 50}>
               <Link
@@ -140,11 +132,13 @@ function Index() {
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <h3 className="font-display text-xl tracking-wide text-foreground">{L(s.name)}</h3>
+                  <h3 className="font-display text-xl leading-snug tracking-wide text-foreground">
+                    {L(s.name)}
+                  </h3>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                     {L(s.tagline)}
                   </p>
-                  <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-4">
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/60 pt-4">
                     <span className="text-xs tracking-wide text-champagne">
                       {t("services.from")} {price(s.fromHkd)}
                       {s.fromUnit ? ` ${L(s.fromUnit)}` : ""}
@@ -172,15 +166,15 @@ function Index() {
 
       {/* Featured */}
       <section className="border-y border-border bg-card/30">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-28">
           <Reveal>
             <p className="eyebrow">{t("featured.eyebrow")}</p>
-            <h2 className="font-display mt-3 max-w-2xl text-3xl tracking-tight sm:text-4xl">
+            <h2 className="font-display mt-3 max-w-2xl text-3xl leading-tight tracking-tight sm:text-4xl">
               {t("featured.title")}
             </h2>
           </Reveal>
 
-          <div className="mt-14 space-y-8">
+          <div className="mt-12 space-y-8 sm:mt-14">
             {featured.map((s, i) => (
               <Reveal key={s.slug} delay={i * 80}>
                 <Link
@@ -188,7 +182,11 @@ function Index() {
                   params={{ slug: s.slug }}
                   className="group grid overflow-hidden rounded-xl border border-border bg-background/50 transition hover:border-champagne/30 md:grid-cols-2"
                 >
-                  <div className={`relative aspect-[16/10] md:aspect-auto ${i % 2 === 1 ? "md:order-2" : ""}`}>
+                  <div
+                    className={`relative aspect-[16/10] md:aspect-auto md:min-h-[280px] ${
+                      i % 2 === 1 ? "md:order-2" : ""
+                    }`}
+                  >
                     <img
                       src={s.image}
                       alt={L(s.alt)}
@@ -196,8 +194,10 @@ function Index() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="flex flex-col justify-center p-8 sm:p-12">
-                    <h3 className="font-display text-2xl tracking-wide sm:text-3xl">{L(s.name)}</h3>
+                  <div className="flex flex-col justify-center p-6 sm:p-10 md:p-12">
+                    <h3 className="font-display text-2xl leading-snug tracking-wide sm:text-3xl">
+                      {L(s.name)}
+                    </h3>
                     <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
                       {L(s.intro)}
                     </p>
@@ -214,14 +214,16 @@ function Index() {
       </section>
 
       {/* How it works */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-28">
         <Reveal>
           <p className="eyebrow">{t("how.eyebrow")}</p>
-          <h2 className="font-display mt-3 text-3xl tracking-tight sm:text-4xl">{t("how.title")}</h2>
+          <h2 className="font-display mt-3 text-3xl leading-tight tracking-tight sm:text-4xl">
+            {t("how.title")}
+          </h2>
           <p className="mt-4 max-w-lg text-sm text-muted-foreground sm:text-base">{t("how.intro")}</p>
         </Reveal>
 
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-8 sm:mt-14 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
             <Reveal key={step.n} delay={i * 70}>
               <div className="relative">
@@ -236,10 +238,10 @@ function Index() {
 
       {/* Why us */}
       <section className="border-y border-border bg-card/30">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-28">
           <Reveal>
             <p className="eyebrow">{t("why.eyebrow")}</p>
-            <h2 className="font-display mt-3 max-w-2xl text-3xl tracking-tight sm:text-4xl">
+            <h2 className="font-display mt-3 max-w-2xl text-3xl leading-tight tracking-tight sm:text-4xl">
               {t("why.title")}
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -247,10 +249,10 @@ function Index() {
             </p>
           </Reveal>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2">
+          <div className="mt-12 grid gap-6 sm:mt-14 sm:grid-cols-2">
             {why.map((item, i) => (
               <Reveal key={item.title} delay={i * 60}>
-                <div className="surface-card rounded-xl p-7 sm:p-8">
+                <div className="surface-card rounded-xl p-6 sm:p-8">
                   <h3 className="font-display text-xl tracking-wide text-champagne">{item.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
                 </div>
@@ -261,19 +263,19 @@ function Index() {
       </section>
 
       {/* Final CTA */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-28">
         <Reveal>
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/50 px-8 py-16 text-center sm:px-16">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card/50 px-6 py-12 text-center sm:px-16 sm:py-16">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.83_0.075_84/0.08),transparent_60%)]" />
             <div className="relative">
               <p className="eyebrow">{t("cta.eyebrow")}</p>
-              <h2 className="font-display mt-4 text-3xl tracking-tight sm:text-4xl md:text-5xl">
+              <h2 className="font-display mt-4 text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl">
                 {t("cta.title")}
               </h2>
               <p className="mx-auto mt-4 max-w-lg text-sm text-muted-foreground sm:text-base">
                 {t("cta.intro")}
               </p>
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10 sm:gap-4">
                 <Link
                   to="/contact"
                   className="inline-flex items-center gap-2 rounded-full bg-champagne px-6 py-3.5 text-sm font-medium text-primary-foreground transition hover:bg-champagne-soft"
