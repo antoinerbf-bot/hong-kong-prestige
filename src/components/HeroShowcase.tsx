@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useI18n, useLocalized } from "@/lib/i18n";
-import { services } from "@/lib/services";
+import { services, HERO_IMAGES } from "@/lib/services";
 import { cn } from "@/lib/utils";
-import heroImg from "@/assets/hero-hk.jpg";
 
-const SLIDE_MS = 4500;
+const SLIDE_MS = 5000;
 
 /**
- * Cinematic hero background: cycles through skyline + every service visual
- * so the full offering is visible as the sequence plays.
+ * Cinematic hero: real photography — Hong Kong + every service.
+ * Soft overlays so text stays readable without looking artificial.
  */
 export function HeroShowcase() {
   const { t } = useI18n();
@@ -16,8 +15,12 @@ export function HeroShowcase() {
 
   const slides = [
     {
-      src: heroImg,
+      src: HERO_IMAGES[0],
       label: { en: "Hong Kong · Private Concierge", zh: "香港 · 私人管家服務" },
+    },
+    {
+      src: HERO_IMAGES[1],
+      label: { en: "Your bridge to the city", zh: "通往這座城市的橋樑" },
     },
     ...services.map((s) => ({
       src: s.image,
@@ -35,12 +38,12 @@ export function HeroShowcase() {
   }, [slides.length]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden bg-muted">
       {slides.map((slide, i) => (
         <div
-          key={i}
+          key={`${slide.src}-${i}`}
           className={cn(
-            "absolute inset-0 transition-opacity duration-[1400ms] ease-in-out",
+            "absolute inset-0 transition-opacity duration-[1600ms] ease-in-out",
             i === index ? "opacity-100" : "opacity-0",
           )}
           aria-hidden={i !== index}
@@ -52,20 +55,20 @@ export function HeroShowcase() {
               "h-full w-full object-cover",
               i === index && "ken-burns",
             )}
+            loading={i === 0 ? "eager" : "lazy"}
           />
         </div>
       ))}
 
-      {/* Overlays for text legibility */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/65 to-background/25" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/35 to-transparent" />
+      {/* Softer, clearer overlays — readable without heavy AI look */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/75 via-background/25 to-transparent" />
 
-      {/* Active service caption */}
       <div className="absolute bottom-6 right-5 z-10 hidden sm:block sm:right-8">
-        <p className="text-[10px] tracking-[0.28em] text-champagne/90 uppercase">
+        <p className="text-[10px] tracking-[0.28em] text-champagne uppercase">
           {t("services.eyebrow")}
         </p>
-        <p className="mt-1 font-display text-sm tracking-wide text-foreground/90">
+        <p className="mt-1 font-display text-sm tracking-wide text-foreground">
           {L(slides[index]?.label ?? { en: "", zh: "" })}
         </p>
         <div className="mt-3 flex gap-1.5">
@@ -77,7 +80,7 @@ export function HeroShowcase() {
               onClick={() => setIndex(i)}
               className={cn(
                 "h-1 rounded-full transition-all",
-                i === index ? "w-6 bg-champagne" : "w-1.5 bg-foreground/30 hover:bg-foreground/50",
+                i === index ? "w-6 bg-champagne" : "w-1.5 bg-foreground/25 hover:bg-foreground/45",
               )}
             />
           ))}

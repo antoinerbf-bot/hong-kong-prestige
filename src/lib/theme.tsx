@@ -32,7 +32,8 @@ function applyTheme(theme: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+  /* Default: light — clearer, more human, less "AI dark template" */
+  const [theme, setThemeState] = useState<Theme>("light");
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
@@ -40,7 +41,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setThemeState(stored);
       applyTheme(stored);
     } else {
-      applyTheme("dark");
+      applyTheme("light");
     }
   }, []);
 
