@@ -85,12 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Premium concierge, relocation, lifestyle support and SGSIA-licensed close protection for expatriates in Hong Kong. Handled with discretion and professionalism.",
-      },
-      {
-        name: "keywords",
-        content:
-          "Hong Kong concierge, Hong Kong concierge services, Hong Kong relocation services, Hong Kong expat concierge, Hong Kong private concierge, Hong Kong bodyguard, Hong Kong executive protection, Hong Kong lifestyle concierge, Hong Kong personal assistant",
+          "Premium concierge, relocation, lifestyle support and SGSIA-licensed close protection for expatriates in Hong Kong.",
       },
       { name: "author", content: "HK Concierge & Bridge" },
       {
@@ -103,11 +98,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Premium concierge, relocation, lifestyle support and SGSIA-licensed close protection for expatriates in Hong Kong.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:locale", content: "en_HK" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
@@ -148,7 +142,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>

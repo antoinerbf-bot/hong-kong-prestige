@@ -1,13 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useRef, useEffect } from "react";
+import { ShoppingBag } from "lucide-react";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services } from "@/lib/services";
 import { useCart } from "@/lib/cart";
-import { ShoppingBag } from "lucide-react";
 
 /**
- * Full-bleed horizontal service showcase — parallax-linked to vertical scroll.
- * Same card size on mobile & desktop (snap scroll).
+ * Horizontal service showcase — linked to vertical scroll (parallax rail).
+ * Consistent card size mobile & desktop.
  */
 export function ServiceRail() {
   const { t, price } = useI18n();
@@ -27,9 +27,12 @@ export function ServiceRail() {
       const rect = section.getBoundingClientRect();
       const viewH = window.innerHeight;
       if (rect.bottom < 0 || rect.top > viewH) return;
-      const progress = Math.min(1, Math.max(0, (viewH - rect.top) / (viewH + rect.height)));
+      const progress = Math.min(
+        1,
+        Math.max(0, (viewH - rect.top) / (viewH + rect.height)),
+      );
       const maxX = track.scrollWidth - track.clientWidth;
-      track.scrollLeft = progress * maxX * 0.85;
+      track.scrollLeft = progress * maxX * 0.9;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -44,13 +47,19 @@ export function ServiceRail() {
         <h2 className="font-display mt-3 max-w-2xl text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl">
           {t("services.title")}
         </h2>
-        <p className="mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">{t("services.intro")}</p>
+        <p className="mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
+          {t("services.intro")}
+        </p>
       </div>
 
       <div
         ref={trackRef}
-        className="mt-10 flex gap-5 overflow-x-auto px-5 pb-4 scrollbar-none sm:gap-6 sm:px-8"
-        style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
+        className="mt-10 flex gap-5 overflow-x-auto px-5 pb-4 sm:gap-6 sm:px-8"
+        style={{
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+        }}
       >
         {services.map((s) => (
           <article
@@ -93,16 +102,10 @@ export function ServiceRail() {
       </div>
 
       <div className="mt-8 text-center">
-        <Link
-          to="/services"
-          className="text-sm tracking-wide text-champagne hover:text-champagne-soft"
-        >
+        <Link to="/services" className="text-sm tracking-wide text-champagne hover:text-champagne-soft">
           {t("services.all")} →
         </Link>
       </div>
     </section>
   );
 }
-
-// local Link import fix
-import { Link } from "@tanstack/react-router";
