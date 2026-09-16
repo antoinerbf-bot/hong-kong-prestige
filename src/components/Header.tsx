@@ -28,7 +28,8 @@ export function Header() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl transition-colors">
+    <header className="site-header fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/75">
+      {/* Fixed height box — CLS stable */}
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-8">
         <Link to="/" className="min-w-0 shrink" onClick={() => setMenuOpen(false)} aria-label={t("brand.name")}>
           <Logo onDark={onDark} />
@@ -53,7 +54,7 @@ export function Header() {
             className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition hover:border-champagne/40 hover:text-champagne"
             aria-label={t("cart.title")}
           >
-            <ShoppingBag className="h-4 w-4" />
+            <ShoppingBag className="h-4 w-4" aria-hidden />
             {count > 0 && (
               <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-champagne px-1 text-[10px] font-medium text-primary-foreground">
                 {count}
@@ -67,7 +68,7 @@ export function Header() {
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition hover:border-champagne/40 hover:text-champagne"
             aria-label={theme === "dark" ? "Light mode" : "Dark mode"}
           >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === "dark" ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
           </button>
 
           <div
@@ -112,9 +113,10 @@ export function Header() {
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground lg:hidden"
             aria-label={open ? t("nav.close") : t("nav.menu")}
+            aria-expanded={open}
             onClick={() => setMenuOpen((v) => !v)}
           >
-            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {open ? <X className="h-4 w-4" aria-hidden /> : <Menu className="h-4 w-4" aria-hidden />}
           </button>
         </div>
       </div>

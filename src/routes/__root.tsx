@@ -14,6 +14,10 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/i18n";
 import { ThemeProvider } from "../lib/theme";
 import { SiteShell } from "../components/SiteShell";
+import { HERO_IMAGES } from "../lib/services";
+import { imgUrl } from "../lib/images";
+
+const HERO_LCP = imgUrl(HERO_IMAGES[0]!, 1280, { quality: 78 });
 
 function NotFoundComponent() {
   return (
@@ -88,6 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Premium concierge, relocation, lifestyle support and SGSIA-licensed close protection for expatriates in Hong Kong.",
       },
       { name: "author", content: "HK Concierge & Bridge" },
+      { name: "theme-color", content: "#f9f7f2" },
       {
         property: "og:title",
         content: "HK Concierge & Bridge — Premium Concierge & Security for Expats in Hong Kong",
@@ -102,17 +107,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      /* LCP: image CDN + fonts early */
+      { rel: "preconnect", href: "https://images.unsplash.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://images.unsplash.com" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
         rel: "preconnect",
         href: "https://fonts.gstatic.com",
         crossOrigin: "anonymous",
       },
+      /* Fewer weights = less FOIT/FOUT bandwidth (CLS + LCP) */
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@400;500&family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@400&display=swap",
       },
+      /* LCP image — high priority preload */
+      {
+        rel: "preload",
+        as: "image",
+        href: HERO_LCP,
+        // @ts-expect-error fetchPriority is valid on link in modern browsers
+        fetchPriority: "high",
+      } as { rel: string; as: string; href: string },
     ],
   }),
   shellComponent: RootShell,
@@ -126,6 +142,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" className="light">
       <head>
         <HeadContent />
+        {/* Anti-FOUC theme — runs before paint to avoid theme CLS */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('hkcb-theme');if(t==='dark'){document.documentElement.classList.add('dark');document.documentElement.classList.remove('light');}else{document.documentElement.classList.add('light');document.documentElement.classList.remove('dark');}}catch(e){}})();`,

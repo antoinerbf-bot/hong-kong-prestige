@@ -5,12 +5,6 @@
 @custom-variant dark (&:is(.dark *));
 @custom-variant light (&:is(.light *));
 
-/*
- * HK Concierge & Bridge — clearer luxury system
- * Light (default): soft ivory, navy text, warm gold accents
- * Dark: refined onyx + champagne
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -41,11 +35,10 @@
   --color-champagne-soft: var(--champagne-soft);
   --color-onyx: var(--onyx);
   --color-ivory: var(--ivory);
-  --font-display: "Cormorant Garamond", "Noto Serif TC", serif;
-  --font-sans: "Jost", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", "Noto Serif TC", Georgia, serif;
+  --font-sans: "Jost", "Noto Sans TC", system-ui, -apple-system, sans-serif;
 }
 
-/* Light = default */
 :root,
 .light {
   --radius: 0.3rem;
@@ -107,8 +100,17 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* Avoid smooth scroll fighting INP on programmatic nav */
+    scroll-behavior: auto;
     overflow-x: hidden;
+    /* Stabilize font metrics (CLS) */
+    text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
@@ -119,9 +121,19 @@
     letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
+    /* Theme color transitions only when user toggles — short to limit style recalc */
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* CLS: images in aspect boxes */
+  img[data-cwv] {
+    content-visibility: auto;
   }
 
   h1,
@@ -133,11 +145,19 @@
     font-weight: 400;
     letter-spacing: -0.015em;
     overflow-wrap: anywhere;
+    /* Fallback metrics reduce CLS when webfonts load */
+    font-display: swap;
   }
 
   ::selection {
     background: var(--champagne);
     color: var(--primary-foreground);
+  }
+
+  /* Focus rings without layout shift */
+  :focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--champagne) 70%, transparent);
+    outline-offset: 2px;
   }
 }
 
@@ -151,9 +171,7 @@
     font-size: 0.875rem;
     color: var(--foreground);
     outline: none;
-    transition:
-      border-color 0.2s,
-      box-shadow 0.2s;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
 
   .field-input:focus {
@@ -171,6 +189,12 @@
     background-repeat: no-repeat;
     background-position: right 0.85rem center;
     padding-right: 2.2rem;
+  }
+
+  /* Below-fold sections — skip paint until near viewport (INP + memory) */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 480px;
   }
 }
 
@@ -213,15 +237,17 @@
 
 @utility reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(12px);
   transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 @utility reveal-in {
   opacity: 1;
   transform: none;
+  will-change: auto;
 }
 
 @utility link-underline {
@@ -236,7 +262,7 @@
     background: var(--champagne);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   &:hover::after {
     transform: scaleX(1);
@@ -249,12 +275,24 @@
     transform: scale(1.02);
   }
   to {
-    transform: scale(1.08);
+    transform: scale(1.06);
   }
 }
 
 @utility ken-burns {
-  animation: slow-zoom 22s ease-in-out infinite alternate;
+  animation: slow-zoom 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Cheaper header blur on mobile (INP / GPU) */
+@media (max-width: 768px) {
+  header.site-header {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .ken-burns {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -265,6 +303,7 @@
     opacity: 1;
     transform: none;
     transition: none;
+    will-change: auto;
   }
   html {
     scroll-behavior: auto;

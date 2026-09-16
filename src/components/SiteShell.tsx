@@ -8,10 +8,13 @@ import { CartProvider } from "@/lib/cart";
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <CartProvider>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-dvh flex-col">
         <Header />
+        {/* Fixed header height reserved → no CLS when header paints */}
         <main className="flex-1 pt-16 sm:pt-20">{children}</main>
-        <Footer />
+        <div className="cv-auto">
+          <Footer />
+        </div>
         <ContactBar />
         <CartDrawer />
       </div>
