@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services, HERO_IMAGES } from "@/lib/services";
 import { cn } from "@/lib/utils";
+import { imgUrl, imgSrcSet, SIZES } from "@/lib/images";
 
 const SLIDE_MS = 5200;
 
-/** Hero: Hong Kong harbour only + each service — no off-city imagery. */
 export function HeroShowcase() {
   const { t } = useI18n();
   const L = useLocalized();
@@ -26,6 +26,7 @@ export function HeroShowcase() {
   ];
 
   const [index, setIndex] = useState(0);
+  const [loaded, setLoaded] = useState<Record<number, boolean>>({ 0: false });
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -34,27 +35,53 @@ export function HeroShowcase() {
     return () => window.clearInterval(id);
   }, [slides.length]);
 
+  // Preload next slide
+  useEffect(() => {
+    const next = (index + 1) % slides.length;
+    const img = new Image();
+    img.src = imgUrl(slides[next]!.src, 1280, { quality: 75 });
+  }, [index, slides]);
+
   return (
     <div className="absolute inset-0 overflow-hidden bg-muted">
-      {slides.map((slide, i) => (
-        <div
-          key={`${i}-${slide.src}`}
-          className={cn(
-            "absolute inset-0 transition-opacity duration-[1500ms] ease-in-out",
-            i === index ? "opacity-100" : "opacity-0",
-          )}
-          aria-hidden={i !== index}
-        >
-          <img
-            src={slide.src}
-            alt=""
-            className={cn("h-full w-full object-cover", i === index && "ken-burns")}
-            loading={i === 0 ? "eager" : "lazy"}
-          />
-        </div>
-      ))}
+      {/* Preload LCP hero */}
+      <link rel="preload" as="image" href={imgUrl(slides[0]!.src, 1280, { quality: 78 })} />
+
+      {slides.map((slide, i) => {
+        // Only mount nearby slides to cut decode cost
+        const near = Math.abs(i - index) <= 1 || i === 0;
+        if (!near && !loaded[i]) return null;
+
+        return (
+          <div
+            key={`${i}-${slide.src}`}
+            className={cn(
+              "absolute inset-0 transition-opacity duration-[1400ms] ease-in-out",
+              i === index ? "opacity-100" : "opacity-0 pointer-events-none",
+            )}
+            aria-hidden={i !== index}
+          >
+            <img
+              src={imgUrl(slide.src, i === 0 ? 1400 : 1100, { quality: i === 0 ? 78 : 70 })}
+              srcSet={imgSrcSet(slide.src, [640, 960, 1280, 1600], i === 0 ? 78 : 70)}
+              sizes={SIZES.hero}
+              alt=""
+              className={cn(
+                "h-full w-full object-cover",
+                i === index && "ken-burns",
+              )}
+              loading={i === 0 ? "eager" : "lazy"}
+              decoding={i === 0 ? "sync" : "async"}
+              fetchPriority={i === 0 ? "high" : "low"}
+              onLoad={() => setLoaded((m) => ({ ...m, [i]: true }))}
+            />
+          </div>
+        );
+      })}
+
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/15" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/30 to-transparent" />
+
       <div className="absolute bottom-6 right-5 z-10 hidden sm:block sm:right-8">
         <p className="text-[10px] tracking-[0.28em] text-champagne uppercase">
           {t("services.eyebrow")}

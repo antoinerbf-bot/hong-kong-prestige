@@ -4,12 +4,8 @@ import { ShoppingBag } from "lucide-react";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services } from "@/lib/services";
 import { useCart } from "@/lib/cart";
+import { OptimizedImage } from "@/components/OptimizedImage";
 
-/**
- * Horizontal service rail driven by vertical scroll.
- * Optimized: rAF throttle, IO gate, transform-based scroll when possible,
- * no work when section is off-screen.
- */
 export function ServiceRail() {
   const { t, price } = useI18n();
   const L = useLocalized();
@@ -44,7 +40,6 @@ export function ServiceRail() {
         Math.max(0, (viewH - rect.top) / (viewH + rect.height)),
       );
       const target = progress * maxXRef.current * 0.9;
-      // Only write if delta is meaningful (avoids layout thrash)
       if (Math.abs(track.scrollLeft - target) > 0.5) {
         track.scrollLeft = target;
       }
@@ -97,20 +92,22 @@ export function ServiceRail() {
           contain: "layout paint",
         }}
       >
-        {services.map((s) => (
+        {services.map((s, i) => (
           <article
             key={s.slug}
             className="surface-card shadow-luxe group relative w-[min(85vw,340px)] shrink-0 overflow-hidden rounded-2xl sm:w-[360px]"
             style={{ scrollSnapAlign: "start", contentVisibility: "auto" }}
           >
             <Link to="/services/$slug" params={{ slug: s.slug }} className="block">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
+              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                <OptimizedImage
                   src={s.image}
                   alt={L(s.alt)}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                  loading="lazy"
-                  decoding="async"
+                  role="card"
+                  width={720}
+                  quality={70}
+                  loading={i < 2 ? "eager" : "lazy"}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
               </div>
