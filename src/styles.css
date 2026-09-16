@@ -100,10 +100,8 @@
   }
 
   html {
-    /* Avoid smooth scroll fighting INP on programmatic nav */
     scroll-behavior: auto;
     overflow-x: hidden;
-    /* Stabilize font metrics (CLS) */
     text-size-adjust: 100%;
   }
 
@@ -121,7 +119,6 @@
     letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    /* Theme color transitions only when user toggles — short to limit style recalc */
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
@@ -131,9 +128,8 @@
     height: auto;
   }
 
-  /* CLS: images in aspect boxes */
-  img[data-cwv] {
-    content-visibility: auto;
+  video {
+    object-fit: cover;
   }
 
   h1,
@@ -145,8 +141,6 @@
     font-weight: 400;
     letter-spacing: -0.015em;
     overflow-wrap: anywhere;
-    /* Fallback metrics reduce CLS when webfonts load */
-    font-display: swap;
   }
 
   ::selection {
@@ -154,7 +148,6 @@
     color: var(--primary-foreground);
   }
 
-  /* Focus rings without layout shift */
   :focus-visible {
     outline: 2px solid color-mix(in oklab, var(--champagne) 70%, transparent);
     outline-offset: 2px;
@@ -191,10 +184,43 @@
     padding-right: 2.2rem;
   }
 
-  /* Below-fold sections — skip paint until near viewport (INP + memory) */
   .cv-auto {
     content-visibility: auto;
     contain-intrinsic-size: auto 480px;
+  }
+
+  /* Hero title — not flat: soft rise + gold rule */
+  .hero-title .hero-line {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  }
+
+  .hero-title .hero-rule {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: hero-rule 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+  }
+
+  .hero-title .hero-line-delay {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: hero-rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+  }
+}
+
+@keyframes hero-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-rule {
+  to {
+    opacity: 1;
+    transform: scaleX(1);
   }
 }
 
@@ -284,7 +310,6 @@
   will-change: transform;
 }
 
-/* Cheaper header blur on mobile (INP / GPU) */
 @media (max-width: 768px) {
   header.site-header {
     backdrop-filter: blur(8px);
@@ -304,6 +329,13 @@
     transform: none;
     transition: none;
     will-change: auto;
+  }
+  .hero-title .hero-line,
+  .hero-title .hero-line-delay,
+  .hero-title .hero-rule {
+    opacity: 1;
+    transform: none;
+    animation: none;
   }
   html {
     scroll-behavior: auto;
