@@ -1,61 +1,57 @@
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { registerParallax } from "@/lib/parallax";
 
 type Props = {
   src: string;
   alt: string;
   className?: string;
-  /** Intensity 0–1 */
+  /** Intensity 0–1 (default soft) */
   intensity?: number;
 };
 
-/** Subtle scroll parallax on service imagery. Respects reduced-motion. */
-export function ParallaxImage({ src, alt, className, intensity = 0.18 }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+/**
+ * GPU parallax image — registers with the shared scroll engine.
+ * No per-instance window listeners; pauses when off-screen.
+ */
+export function ParallaxImage({ src, alt, className, intensity = 0.16 }: Props) {
+  const boxRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-
-    const el = ref.current;
+    const box = boxRef.current;
     const img = imgRef.current;
-    if (!el || !img) return;
+    if (!box || !img) return;
 
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const rect = el.getBoundingClientRect();
-        const viewH = window.innerHeight;
-        const progress = (viewH / 2 - (rect.top + rect.height / 2)) / viewH;
-        const y = progress * intensity * 80;
-        img.style.transform = `translate3d(0, ${y}px, 0) scale(1.12)`;
-      });
-    };
+    // Composite layer once; avoid will-change forever on mobile
+    img.style.willChange = "transform";
+    img.style.transform = "translate3d(0,0,0) scale(1.1)";
+    img.style.backfaceVisibility = "hidden";
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const unregister = registerParallax(
+      box,
+      (y) => {
+        img.style.transform = `translate3d(0,${y.toFixed(2)}px,0) scale(1.1)`;
+      },
+      intensity,
+    );
+
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
+      unregister();
+      img.style.willChange = "auto";
     };
   }, [intensity]);
 
-  const style: CSSProperties = {
-    transform: "translate3d(0,0,0) scale(1.12)",
-    willChange: "transform",
-  };
-
   return (
-    <div ref={ref} className={cn("relative overflow-hidden", className)}>
+    <div ref={boxRef} className={cn("relative overflow-hidden", className)}>
       <img
         ref={imgRef}
         src={src}
         alt={alt}
-        style={style}
         className="absolute inset-0 h-full w-full object-cover"
         loading="lazy"
+        decoding="async"
+        fetchPriority="low"
       />
     </div>
   );

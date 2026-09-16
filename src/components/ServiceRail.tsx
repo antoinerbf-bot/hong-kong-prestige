@@ -6,8 +6,9 @@ import { services } from "@/lib/services";
 import { useCart } from "@/lib/cart";
 
 /**
- * Horizontal service showcase — linked to vertical scroll (parallax rail).
- * Consistent card size mobile & desktop.
+ * Horizontal service rail driven by vertical scroll.
+ * Optimized: rAF throttle, IO gate, transform-based scroll when possible,
+ * no work when section is off-screen.
  */
 export function ServiceRail() {
   const { t, price } = useI18n();
@@ -15,29 +16,63 @@ export function ServiceRail() {
   const { add } = useCart();
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const activeRef = useRef(false);
+  const rafRef = useRef(0);
+  const maxXRef = useRef(0);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
+
     const section = sectionRef.current;
     const track = trackRef.current;
     if (!section || !track) return;
 
-    const onScroll = () => {
+    const measure = () => {
+      maxXRef.current = Math.max(0, track.scrollWidth - track.clientWidth);
+    };
+    measure();
+
+    const update = () => {
+      rafRef.current = 0;
+      if (!activeRef.current) return;
       const rect = section.getBoundingClientRect();
-      const viewH = window.innerHeight;
+      const viewH = window.innerHeight || 1;
       if (rect.bottom < 0 || rect.top > viewH) return;
       const progress = Math.min(
         1,
         Math.max(0, (viewH - rect.top) / (viewH + rect.height)),
       );
-      const maxX = track.scrollWidth - track.clientWidth;
-      track.scrollLeft = progress * maxX * 0.9;
+      const target = progress * maxXRef.current * 0.9;
+      // Only write if delta is meaningful (avoids layout thrash)
+      if (Math.abs(track.scrollLeft - target) > 0.5) {
+        track.scrollLeft = target;
+      }
     };
 
+    const onScroll = () => {
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(update);
+    };
+
+    const io = new IntersectionObserver(
+      ([obs]) => {
+        activeRef.current = Boolean(obs?.isIntersecting);
+        if (activeRef.current) onScroll();
+      },
+      { root: null, rootMargin: "15% 0px", threshold: 0 },
+    );
+    io.observe(section);
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", measure, { passive: true });
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", measure);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
@@ -59,23 +94,25 @@ export function ServiceRail() {
           scrollSnapType: "x mandatory",
           WebkitOverflowScrolling: "touch",
           scrollbarWidth: "none",
+          contain: "layout paint",
         }}
       >
         {services.map((s) => (
           <article
             key={s.slug}
             className="surface-card shadow-luxe group relative w-[min(85vw,340px)] shrink-0 overflow-hidden rounded-2xl sm:w-[360px]"
-            style={{ scrollSnapAlign: "start" }}
+            style={{ scrollSnapAlign: "start", contentVisibility: "auto" }}
           >
             <Link to="/services/$slug" params={{ slug: s.slug }} className="block">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                   src={s.image}
                   alt={L(s.alt)}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                   loading="lazy"
+                  decoding="async"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
               </div>
             </Link>
             <div className="p-5 sm:p-6">
