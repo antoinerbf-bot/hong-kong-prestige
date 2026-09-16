@@ -6,28 +6,26 @@ type Props = {
   onDark?: boolean;
 };
 
-/** Official logo URL (same asset as hkconciergebridge.com.hk). */
 const LOGO_FULL =
   "https://www.hkconciergebridge.com.hk/brand/logo-embed.jpg";
 
 /**
- * Official HK Concierge & Bridge logo — same mark as the live site
- * (bridge + shield + wordmark). Contrast filter adapts to light/dark mode.
+ * Official logo from the live site (bridge + shield + wordmark).
+ * Natural on light; subtle lift on dark backgrounds.
  */
-export function Logo({ className, markOnly = false, onDark = true }: Props) {
+export function Logo({ className, markOnly = false, onDark = false }: Props) {
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
       <img
         src={LOGO_FULL}
         alt="HK Concierge & Bridge"
         className={cn(
-          "object-contain object-left object-center",
+          "object-contain object-left",
           markOnly
             ? "h-9 w-auto max-w-[120px]"
             : "h-10 w-auto max-w-[min(200px,48vw)] sm:h-[3.25rem] sm:max-w-[260px]",
-          /* Official logo is navy on white — lift it on dark UI */
           onDark &&
-            "brightness-0 invert-[0.93] sepia-[0.4] saturate-[2.4] hue-rotate-[8deg]",
+            "brightness-0 invert-[0.93] sepia-[0.25] saturate-[1.8] hue-rotate-[8deg]",
         )}
       />
     </div>
@@ -35,5 +33,5 @@ export function Logo({ className, markOnly = false, onDark = true }: Props) {
 }
 
 export function LogoMark({ className }: { className?: string }) {
-  return <Logo markOnly className={className} onDark />;
+  return <Logo markOnly className={className} onDark={false} />;
 }

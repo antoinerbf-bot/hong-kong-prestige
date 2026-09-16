@@ -6,9 +6,9 @@
 @custom-variant light (&:is(.light *));
 
 /*
- * HK Concierge & Bridge — luxury design system.
- * Dark (default): onyx / champagne
- * Light: ivory / navy / gold
+ * HK Concierge & Bridge — clearer luxury system
+ * Light (default): soft ivory, navy text, warm gold accents
+ * Dark: refined onyx + champagne
  */
 
 @theme inline {
@@ -45,59 +45,60 @@
   --font-sans: "Jost", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Default = dark */
+/* Light = default */
 :root,
+.light {
+  --radius: 0.3rem;
+  --background: oklch(0.985 0.006 95);
+  --foreground: oklch(0.24 0.025 255);
+  --card: oklch(1 0.004 95);
+  --card-foreground: oklch(0.24 0.025 255);
+  --popover: oklch(1 0.004 95);
+  --popover-foreground: oklch(0.24 0.025 255);
+  --primary: oklch(0.48 0.09 75);
+  --primary-foreground: oklch(0.99 0.01 95);
+  --secondary: oklch(0.96 0.008 95);
+  --secondary-foreground: oklch(0.28 0.02 255);
+  --muted: oklch(0.955 0.008 95);
+  --muted-foreground: oklch(0.45 0.02 255);
+  --accent: oklch(0.96 0.012 90);
+  --accent-foreground: oklch(0.24 0.025 255);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.99 0.01 95);
+  --border: oklch(0.28 0.02 255 / 10%);
+  --input: oklch(0.28 0.02 255 / 12%);
+  --ring: oklch(0.48 0.09 75 / 45%);
+  --champagne: oklch(0.48 0.09 75);
+  --champagne-soft: oklch(0.58 0.08 78);
+  --onyx: oklch(0.24 0.025 255);
+  --ivory: oklch(0.985 0.006 95);
+}
+
 .dark {
-  --radius: 0.25rem;
-  --background: oklch(0.145 0.008 60);
-  --foreground: oklch(0.955 0.008 85);
-  --card: oklch(0.185 0.008 60);
-  --card-foreground: oklch(0.955 0.008 85);
-  --popover: oklch(0.185 0.008 60);
-  --popover-foreground: oklch(0.955 0.008 85);
-  --primary: oklch(0.83 0.075 84);
-  --primary-foreground: oklch(0.16 0.01 60);
-  --secondary: oklch(0.24 0.008 60);
-  --secondary-foreground: oklch(0.955 0.008 85);
-  --muted: oklch(0.24 0.008 60);
-  --muted-foreground: oklch(0.72 0.012 80);
+  --radius: 0.3rem;
+  --background: oklch(0.16 0.01 60);
+  --foreground: oklch(0.96 0.008 85);
+  --card: oklch(0.2 0.01 60);
+  --card-foreground: oklch(0.96 0.008 85);
+  --popover: oklch(0.2 0.01 60);
+  --popover-foreground: oklch(0.96 0.008 85);
+  --primary: oklch(0.82 0.07 84);
+  --primary-foreground: oklch(0.18 0.01 60);
+  --secondary: oklch(0.26 0.01 60);
+  --secondary-foreground: oklch(0.96 0.008 85);
+  --muted: oklch(0.26 0.01 60);
+  --muted-foreground: oklch(0.72 0.015 80);
   --accent: oklch(0.28 0.014 70);
-  --accent-foreground: oklch(0.955 0.008 85);
+  --accent-foreground: oklch(0.96 0.008 85);
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.97 0.005 85);
   --border: oklch(0.995 0.01 85 / 12%);
   --input: oklch(0.995 0.01 85 / 16%);
-  --ring: oklch(0.83 0.075 84 / 60%);
-  --champagne: oklch(0.83 0.075 84);
-  --champagne-soft: oklch(0.9 0.045 88);
-  --onyx: oklch(0.145 0.008 60);
+  --ring: oklch(0.82 0.07 84 / 55%);
+  --champagne: oklch(0.82 0.07 84);
+  --champagne-soft: oklch(0.88 0.05 88);
+  --onyx: oklch(0.16 0.01 60);
   --ivory: oklch(0.965 0.012 90);
-}
-
-.light {
-  --background: oklch(0.975 0.008 90);
-  --foreground: oklch(0.22 0.02 255);
-  --card: oklch(1 0.005 90);
-  --card-foreground: oklch(0.22 0.02 255);
-  --popover: oklch(1 0.005 90);
-  --popover-foreground: oklch(0.22 0.02 255);
-  --primary: oklch(0.55 0.1 80);
-  --primary-foreground: oklch(0.99 0.01 90);
-  --secondary: oklch(0.94 0.01 90);
-  --secondary-foreground: oklch(0.25 0.02 255);
-  --muted: oklch(0.94 0.01 90);
-  --muted-foreground: oklch(0.48 0.02 255);
-  --accent: oklch(0.94 0.015 85);
-  --accent-foreground: oklch(0.22 0.02 255);
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.99 0.01 90);
-  --border: oklch(0.22 0.02 255 / 12%);
-  --input: oklch(0.22 0.02 255 / 14%);
-  --ring: oklch(0.55 0.1 80 / 50%);
-  --champagne: oklch(0.55 0.1 80);
-  --champagne-soft: oklch(0.65 0.09 82);
-  --onyx: oklch(0.22 0.02 255);
-  --ivory: oklch(0.975 0.008 90);
 }
 
 @layer base {
@@ -114,13 +115,13 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     transition:
-      background-color 0.35s ease,
-      color 0.35s ease;
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   h1,
@@ -129,11 +130,9 @@
   h4,
   .display {
     font-family: var(--font-display);
-    font-weight: 300;
-    letter-spacing: -0.01em;
+    font-weight: 400;
+    letter-spacing: -0.015em;
     overflow-wrap: anywhere;
-    word-break: normal;
-    hyphens: none;
   }
 
   ::selection {
@@ -147,7 +146,7 @@
     width: 100%;
     border-radius: 0.5rem;
     border: 1px solid var(--border);
-    background: color-mix(in oklab, var(--card) 70%, transparent);
+    background: var(--card);
     padding: 0.7rem 0.9rem;
     font-size: 0.875rem;
     color: var(--foreground);
@@ -158,8 +157,8 @@
   }
 
   .field-input:focus {
-    border-color: color-mix(in oklab, var(--champagne) 55%, transparent);
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--champagne) 18%, transparent);
+    border-color: color-mix(in oklab, var(--champagne) 50%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--champagne) 15%, transparent);
   }
 
   .field-input::placeholder {
@@ -168,7 +167,7 @@
 
   select.field-input {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9b896' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.85rem center;
     padding-right: 2.2rem;
@@ -178,8 +177,8 @@
 @utility eyebrow {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
-  font-weight: 400;
-  letter-spacing: 0.28em;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--champagne);
 }
@@ -190,56 +189,34 @@
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in oklab, var(--champagne) 45%, transparent),
+    color-mix(in oklab, var(--champagne) 40%, transparent),
     transparent
   );
 }
 
 @utility gold-text {
-  background: linear-gradient(
-    100deg,
-    var(--champagne-soft),
-    var(--champagne) 45%,
-    color-mix(in oklab, var(--champagne) 70%, var(--ivory)) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-@utility glass-panel {
-  background: color-mix(in oklab, var(--card) 65%, transparent);
-  backdrop-filter: blur(14px) saturate(120%);
-  border: 1px solid var(--border);
+  color: var(--champagne);
 }
 
 @utility surface-card {
-  background: linear-gradient(
-    160deg,
-    color-mix(in oklab, var(--card) 92%, var(--champagne) 3%),
-    var(--background)
-  );
+  background: var(--card);
   border: 1px solid var(--border);
 }
 
 @utility shadow-luxe {
-  box-shadow:
-    0 1px 0 0 color-mix(in oklab, var(--champagne) 12%, transparent) inset,
-    0 30px 70px -40px oklch(0 0 0 / 40%);
+  box-shadow: 0 12px 40px -20px oklch(0.3 0.02 255 / 12%);
 }
 
-.light .shadow-luxe {
-  box-shadow:
-    0 1px 0 0 color-mix(in oklab, var(--champagne) 8%, transparent) inset,
-    0 20px 50px -30px oklch(0.3 0.02 255 / 18%);
+.dark .shadow-luxe {
+  box-shadow: 0 20px 50px -28px oklch(0 0 0 / 55%);
 }
 
 @utility reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(18px);
   transition:
-    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @utility reveal-in {
@@ -259,7 +236,7 @@
     background: var(--champagne);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   &:hover::after {
     transform: scaleX(1);
@@ -269,15 +246,15 @@
 
 @keyframes slow-zoom {
   from {
-    transform: scale(1.04) translate3d(0, 0, 0);
+    transform: scale(1.02);
   }
   to {
-    transform: scale(1.12) translate3d(0, -1%, 0);
+    transform: scale(1.08);
   }
 }
 
 @utility ken-burns {
-  animation: slow-zoom 26s ease-in-out infinite alternate;
+  animation: slow-zoom 22s ease-in-out infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {
