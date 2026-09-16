@@ -1,23 +1,20 @@
 import { Link } from "@tanstack/react-router";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, useLocalized } from "@/lib/i18n";
+import { useTheme } from "@/lib/theme";
 import { services, CONTACT } from "@/lib/services";
-import { useLocalized } from "@/lib/i18n";
+import { Logo } from "@/components/Logo";
 
 export function Footer() {
   const { t } = useI18n();
   const L = useLocalized();
+  const { theme } = useTheme();
 
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-t border-border bg-background transition-colors">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-champagne/40 text-[11px] font-medium tracking-[0.18em] text-champagne">
-                HK
-              </span>
-              <span className="font-display text-lg tracking-wide">{t("brand.name")}</span>
-            </div>
+            <Logo onDark={theme === "dark"} />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
               {t("hero.subtitle")}
             </p>

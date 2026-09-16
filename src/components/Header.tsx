@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useI18n, type Lang } from "@/lib/i18n";
+import { useTheme } from "@/lib/theme";
+import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -14,7 +16,9 @@ const nav = [
 
 export function Header() {
   const { lang, setLang, t } = useI18n();
+  const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
+  const onDark = theme === "dark";
 
   const switchLang = (l: Lang) => {
     setLang(l);
@@ -22,23 +26,13 @@ export function Header() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:h-20 sm:px-8">
-        <Link to="/" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-champagne/40 text-[11px] font-medium tracking-[0.18em] text-champagne">
-            HK
-          </span>
-          <span className="hidden flex-col leading-tight sm:flex">
-            <span className="font-display text-[15px] tracking-wide text-foreground">
-              {t("brand.name")}
-            </span>
-            <span className="text-[10px] tracking-[0.22em] text-muted-foreground uppercase">
-              {t("brand.tagline").split("·")[0]?.trim()}
-            </span>
-          </span>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl transition-colors">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-8">
+        <Link to="/" className="min-w-0 shrink" onClick={() => setOpen(false)} aria-label={t("brand.name")}>
+          <Logo onDark={onDark} />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
           {nav.map((item) => (
             <Link
               key={item.to}
@@ -50,7 +44,16 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            onClick={toggle}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition hover:border-champagne/40 hover:text-champagne"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+
           <div
             className="hidden items-center gap-1 rounded-full border border-border px-1 py-1 text-[11px] tracking-wider sm:flex"
             role="group"
@@ -84,14 +87,14 @@ export function Header() {
 
           <Link
             to="/contact"
-            className="hidden rounded-full bg-champagne px-4 py-2 text-[12px] font-medium tracking-wide text-primary-foreground transition hover:bg-champagne-soft sm:inline-flex"
+            className="hidden rounded-full bg-champagne px-4 py-2 text-[12px] font-medium tracking-wide text-primary-foreground transition hover:bg-champagne-soft md:inline-flex"
           >
             {t("nav.book")}
           </Link>
 
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground lg:hidden"
             aria-label={open ? t("nav.close") : t("nav.menu")}
             onClick={() => setOpen((v) => !v)}
           >
@@ -101,8 +104,8 @@ export function Header() {
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background md:hidden">
-          <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4" aria-label="Mobile">
+        <div className="border-t border-border bg-background lg:hidden">
+          <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4" aria-label="Mobile">
             {nav.map((item) => (
               <Link
                 key={item.to}
@@ -113,7 +116,7 @@ export function Header() {
                 {t(item.key)}
               </Link>
             ))}
-            <div className="mt-2 flex items-center gap-2 px-3">
+            <div className="mt-2 flex flex-wrap items-center gap-2 px-3">
               <button
                 type="button"
                 onClick={() => switchLang("en")}
@@ -133,6 +136,14 @@ export function Header() {
                 )}
               >
                 繁中
+              </button>
+              <button
+                type="button"
+                onClick={toggle}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs"
+              >
+                {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+                {theme === "dark" ? "Light" : "Dark"}
               </button>
             </div>
             <Link

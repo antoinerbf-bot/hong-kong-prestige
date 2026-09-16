@@ -3,10 +3,12 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
 
 /*
  * HK Concierge & Bridge — luxury design system.
- * Onyx / ivory / champagne. All colors in oklch.
+ * Dark (default): onyx / champagne
+ * Light: ivory / navy / gold
  */
 
 @theme inline {
@@ -43,7 +45,9 @@
   --font-sans: "Jost", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
 }
 
-:root {
+/* Default = dark */
+:root,
+.dark {
   --radius: 0.25rem;
   --background: oklch(0.145 0.008 60);
   --foreground: oklch(0.955 0.008 85);
@@ -70,6 +74,32 @@
   --ivory: oklch(0.965 0.012 90);
 }
 
+.light {
+  --background: oklch(0.975 0.008 90);
+  --foreground: oklch(0.22 0.02 255);
+  --card: oklch(1 0.005 90);
+  --card-foreground: oklch(0.22 0.02 255);
+  --popover: oklch(1 0.005 90);
+  --popover-foreground: oklch(0.22 0.02 255);
+  --primary: oklch(0.55 0.1 80);
+  --primary-foreground: oklch(0.99 0.01 90);
+  --secondary: oklch(0.94 0.01 90);
+  --secondary-foreground: oklch(0.25 0.02 255);
+  --muted: oklch(0.94 0.01 90);
+  --muted-foreground: oklch(0.48 0.02 255);
+  --accent: oklch(0.94 0.015 85);
+  --accent-foreground: oklch(0.22 0.02 255);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.99 0.01 90);
+  --border: oklch(0.22 0.02 255 / 12%);
+  --input: oklch(0.22 0.02 255 / 14%);
+  --ring: oklch(0.55 0.1 80 / 50%);
+  --champagne: oklch(0.55 0.1 80);
+  --champagne-soft: oklch(0.65 0.09 82);
+  --onyx: oklch(0.22 0.02 255);
+  --ivory: oklch(0.975 0.008 90);
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
@@ -88,6 +118,9 @@
     letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
   }
 
   h1,
@@ -98,6 +131,9 @@
     font-family: var(--font-display);
     font-weight: 300;
     letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: none;
   }
 
   ::selection {
@@ -106,7 +142,6 @@
   }
 }
 
-/* Form controls */
 @layer components {
   .field-input {
     width: 100%;
@@ -140,7 +175,6 @@
   }
 }
 
-/* Eyebrow / kicker label */
 @utility eyebrow {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
@@ -150,7 +184,6 @@
   color: var(--champagne);
 }
 
-/* Thin champagne rule */
 @utility hairline {
   height: 1px;
   width: 100%;
@@ -192,7 +225,13 @@
 @utility shadow-luxe {
   box-shadow:
     0 1px 0 0 color-mix(in oklab, var(--champagne) 12%, transparent) inset,
-    0 30px 70px -40px oklch(0 0 0 / 90%);
+    0 30px 70px -40px oklch(0 0 0 / 40%);
+}
+
+.light .shadow-luxe {
+  box-shadow:
+    0 1px 0 0 color-mix(in oklab, var(--champagne) 8%, transparent) inset,
+    0 20px 50px -30px oklch(0.3 0.02 255 / 18%);
 }
 
 @utility reveal {
@@ -233,7 +272,7 @@
     transform: scale(1.04) translate3d(0, 0, 0);
   }
   to {
-    transform: scale(1.16) translate3d(0, -1.5%, 0);
+    transform: scale(1.12) translate3d(0, -1%, 0);
   }
 }
 
