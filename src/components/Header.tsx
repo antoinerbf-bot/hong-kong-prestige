@@ -29,12 +29,12 @@ export function Header() {
 
   return (
     <header className="site-header fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/75">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-8">
+      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 sm:h-[4.75rem] sm:px-8 lg:px-12">
         <Link to="/" className="min-w-0 shrink" onClick={() => setMenuOpen(false)} aria-label={t("brand.name")}>
           <Logo onDark={onDark} />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {nav.map((item) => (
             <Link
               key={item.to}

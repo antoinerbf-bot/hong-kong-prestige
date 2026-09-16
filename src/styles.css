@@ -341,3 +341,20 @@
     scroll-behavior: auto;
   }
 }
+
+@utility max-w-editorial {
+  max-width: 1440px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover img {
+    transform: none !important;
+  }
+  .hero-title .hero-line,
+  .hero-title .hero-rule,
+  .hero-title .hero-line-delay {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
