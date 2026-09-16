@@ -6,6 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { HeroShowcase } from "@/components/HeroShowcase";
 import { ServiceRail } from "@/components/ServiceRail";
 import { ParallaxImage } from "@/components/ParallaxImage";
+import { HeroTitle } from "@/components/HeroTitle";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { t, price } = useI18n();
+  const { t } = useI18n();
   const L = useLocalized();
   const featured = services.filter((s) => featuredSlugs.includes(s.slug));
 
@@ -56,10 +57,7 @@ function Index() {
         <HeroShowcase />
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-28 sm:px-8 sm:pb-28 sm:pt-32">
           <p className="eyebrow mb-5">{t("hero.eyebrow")}</p>
-          <h1 className="font-display max-w-3xl text-[2.35rem] leading-[1.12] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-[4.1rem] lg:leading-[1.08]">
-            <span className="block">{t("hero.title.a")}</span>
-            <span className="mt-1 block text-champagne">{t("hero.title.b")}</span>
-          </h1>
+          <HeroTitle />
           <p className="mt-6 max-w-lg text-[0.95rem] leading-relaxed text-foreground/85 sm:text-lg">
             {t("hero.subtitle")}
           </p>
