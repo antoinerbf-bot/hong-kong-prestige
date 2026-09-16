@@ -1,8 +1,7 @@
-import { MessageCircle, Phone } from "lucide-react";
+import { MessageCircle, Phone } from "@/icons";
 import { CHANNELS } from "@/lib/contact-links";
 import { useI18n } from "@/lib/i18n";
 
-/** Floating contact — content-visibility friendly, no layout shift. */
 export function ContactBar() {
   const { t } = useI18n();
 

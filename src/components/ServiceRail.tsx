@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useRef, useEffect } from "react";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag } from "@/icons";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services } from "@/lib/services";
 import { useCart } from "@/lib/cart";
@@ -125,7 +125,7 @@ export function ServiceRail() {
                   onClick={() => add(s.slug, 0)}
                   className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-[11px] transition hover:border-champagne/50 hover:text-champagne"
                 >
-                  <ShoppingBag className="h-3 w-3" />
+                  <ShoppingBag className="h-3 w-3" aria-hidden />
                   {t("cart.add")}
                 </button>
               </div>

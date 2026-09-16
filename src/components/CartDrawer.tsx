@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { X, ShoppingBag } from "lucide-react";
+import { X, ShoppingBag } from "@/icons";
 import { useCart } from "@/lib/cart";
 import { getService } from "@/lib/services";
 import { useI18n, useLocalized } from "@/lib/i18n";
@@ -37,7 +37,7 @@ export function CartDrawer() {
       <aside className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-background shadow-2xl">
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="h-4 w-4 text-champagne" />
+            <ShoppingBag className="h-4 w-4 text-champagne" aria-hidden />
             <h2 className="font-display text-lg tracking-wide">
               {t("cart.title")} ({count})
             </h2>
@@ -48,7 +48,7 @@ export function CartDrawer() {
             className="rounded-full p-2 hover:bg-accent"
             aria-label={t("nav.close")}
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4" aria-hidden />
           </button>
         </div>
 
@@ -70,6 +70,8 @@ export function CartDrawer() {
                       src={s.image}
                       alt=""
                       className="h-16 w-16 rounded-lg object-cover"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium">{L(s.name)}</p>
@@ -93,7 +95,7 @@ export function CartDrawer() {
         </div>
 
         {items.length > 0 && (
-          <div className="border-t border-border px-5 py-4 space-y-3">
+          <div className="space-y-3 border-t border-border px-5 py-4">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">{t("cart.total")}</span>
               <span className="font-medium text-champagne">{price(totalHkd)}</span>

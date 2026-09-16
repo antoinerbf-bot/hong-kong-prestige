@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Moon, Sun, ShoppingBag } from "lucide-react";
+import { Menu, X, Moon, Sun, ShoppingBag } from "@/icons";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useCart } from "@/lib/cart";
@@ -29,7 +29,6 @@ export function Header() {
 
   return (
     <header className="site-header fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/75">
-      {/* Fixed height box — CLS stable */}
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-8">
         <Link to="/" className="min-w-0 shrink" onClick={() => setMenuOpen(false)} aria-label={t("brand.name")}>
           <Logo onDark={onDark} />
