@@ -27,29 +27,52 @@ const perSession: Pair = { en: "/ session", zh: "/ 次" };
 const perRequest: Pair = { en: "/ request", zh: "/ 次" };
 const perTask: Pair = { en: "/ task", zh: "/ 項" };
 
-/** Base Unsplash URLs — actual size/quality applied at render via imgUrl/srcset. */
 const base = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=72`;
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=80`;
 
+/**
+ * Curated luxury / Hong Kong–coherent photography.
+ * Bodyguard = black executive sedan (no blue Fiat).
+ * Babysitting = warm family care, not stock stock.
+ */
 const IMG = {
+  /* Victoria Harbour night & dusk — Hong Kong only */
   hero: base("photo-1536599018102-9f803c140fc1"),
-  hero2: base("photo-1570168007204-dfb528c6958f"),
-  welcome: base("photo-1600585154526-990dced4db0d"),
-  bodyguard: base("photo-1549317661-bd32c8ce0db2"),
-  dog: base("photo-1587300003388-59208cc962cb"),
-  babysitting: base("photo-1476703993599-0035a21b17a9"),
-  social: base("photo-1517248135467-4c7edcad34c4"),
+  hero2: base("photo-1518684079-3c830dcef090"),
+
+  /* Welcome — refined modern residence interior */
+  welcome: base("photo-1600607687939-ce8a6c25118c"),
+
+  /* Bodyguard / chauffeur — black luxury executive sedan at night */
+  bodyguard: base("photo-1618843479313-40f8afb4b4d8"),
+
+  /* Dog — calm premium lifestyle */
+  dog: base("photo-1548199973-03cce0bbc87b"),
+
+  /* Babysitting — elegant mother with children, soft light */
+  babysitting: base("photo-1609220136736-997d3f0e6e4b"),
+
+  /* Social — refined evening dining atmosphere */
+  social: base("photo-1559339352-11d035aa65de"),
+
+  /* Fine dining — plated haute cuisine */
   dining: base("photo-1414235077428-338989a2e8c0"),
-  admin: base("photo-1486312338219-ce68d2c6f44d"),
+
+  /* Admin — organised professional desk, calm */
+  admin: base("photo-1454165804606-c3d57bc86b40"),
 };
 
 export const HERO_IMAGES = [IMG.hero, IMG.hero2];
+
+/** Cinematic free stock — urban night skyline (loop). Poster remains HK. */
+export const HERO_VIDEO =
+  "https://cdn.coverr.co/videos/coverr-aerial-view-of-city-lights-at-night-5633/1080p.mp4";
 
 export const services: Service[] = [
   {
     slug: "welcome-package",
     image: IMG.welcome,
-    alt: { en: "Refined Hong Kong residence interior", zh: "精緻的香港住宅室內" },
+    alt: { en: "Refined residence interior ready for arrival", zh: "精緻住宅室內，迎接抵港" },
     name: { en: "Welcome Package", zh: "抵港安頓套餐" },
     tagline: { en: "A settled start to life in Hong Kong.", zh: "為您的香港生活打好基礎。" },
     fromHkd: 4000,
@@ -88,8 +111,8 @@ export const services: Service[] = [
     slug: "bodyguard-service",
     image: IMG.bodyguard,
     alt: {
-      en: "Black executive vehicle for discreet protection in Hong Kong",
-      zh: "黑色行政座駕，香港低調保護服務",
+      en: "Black executive Mercedes for discreet close protection",
+      zh: "黑色行政平治座駕，低調貼身保護",
     },
     name: { en: "Bodyguard Service", zh: "貼身保護服務" },
     tagline: {
@@ -172,7 +195,10 @@ export const services: Service[] = [
   {
     slug: "babysitting-pickup",
     image: IMG.babysitting,
-    alt: { en: "Attentive care with children in a calm home setting", zh: "平靜家居中細心照顧兒童" },
+    alt: {
+      en: "Warm, attentive care with mother and children",
+      zh: "溫暖細心的母子陪伴時刻",
+    },
     name: { en: "Babysitting & After-School Pickup", zh: "保姆及放學接送" },
     tagline: { en: "Trusted care and safe school pickups.", zh: "可信的照顧與安全的放學接送。" },
     fromHkd: 120,
@@ -210,7 +236,7 @@ export const services: Service[] = [
   {
     slug: "social-accompaniment",
     image: IMG.social,
-    alt: { en: "Elegant evening setting in the city", zh: "城中優雅的晚間場合" },
+    alt: { en: "Elegant evening table in soft light", zh: "柔光下的優雅晚間場合" },
     name: { en: "Social Accompaniment", zh: "社交陪伴服務" },
     tagline: { en: "Friendly company for newcomers.", zh: "為初來港者提供友善陪伴。" },
     fromHkd: 250,
@@ -289,7 +315,7 @@ export const services: Service[] = [
   {
     slug: "administrative-concierge",
     image: IMG.admin,
-    alt: { en: "Professional desk — organised executive support", zh: "專業書桌 — 有序的行政支援" },
+    alt: { en: "Organised executive desk — calm administrative support", zh: "有序的行政書桌 — 從容的文書支援" },
     name: { en: "Administrative Concierge", zh: "行政事務助理" },
     tagline: { en: "Your errands and paperwork, handled.", zh: "您的瑣事與文書，交由我們處理。" },
     fromHkd: 300,
