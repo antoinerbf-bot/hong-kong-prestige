@@ -28,31 +28,54 @@ const perRequest: Pair = { en: "/ request", zh: "/ 次" };
 const perTask: Pair = { en: "/ task", zh: "/ 項" };
 
 const base = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=80`;
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=82`;
 
+/**
+ * Images chosen for SERVICE COHERENCE (not decorative stock):
+ * bodyguard → executive in dark suit + black luxury vehicle context
+ * gastronomy → private chef / service, not a random plate alone
+ * babysitting → carer with children
+ * welcome → arrival / residence
+ */
 const IMG = {
   hero: base("photo-1536599018102-9f803c140fc1"),
   hero2: base("photo-1518684079-3c830dcef090"),
-  welcome: base("photo-1600607687939-ce8a6c25118c"),
-  /* Black executive sedan — not a blue Fiat */
-  bodyguard: base("photo-1618843479313-40f8afb4b4d8"),
+
+  /* Keys / refined home — relocation arrival */
+  welcome: base("photo-1560448204-e02f11c3d0e2"),
+
+  /* Executive protection — man in formal dark suit (close-protection look) */
+  bodyguard: base("photo-1507679799987-c73779587ccf"),
+
+  /* Secondary bodyguard visual — black luxury sedan */
+  bodyguardCar: base("photo-1618843479313-40f8afb4b4d8"),
+
   dog: base("photo-1548199973-03cce0bbc87b"),
-  /* Warm family / babysitting */
-  babysitting: base("photo-1609220136736-997d3f0e6e4b"),
-  social: base("photo-1559339352-11d035aa65de"),
-  dining: base("photo-1414235077428-338989a2e8c0"),
-  admin: base("photo-1454165804606-c3d57bc86b40"),
+
+  /* Carer with young child — warm, trustworthy */
+  babysitting: base("photo-1503454537195-1dcabb73ffb9"),
+
+  /* Two people walking / conversation — accompaniment */
+  social: base("photo-1529156069898-49953e39b3ac"),
+
+  /* Private chef plating in kitchen — not just a dish photo */
+  dining: base("photo-1577219491135-a2211e7c9e36"),
+
+  /* Organised desk / documents — admin */
+  admin: base("photo-1450101499163-c8848c66ca85"),
 };
 
 export const HERO_IMAGES = [IMG.hero, IMG.hero2];
-
 export { HERO_VIDEO, HERO_VIDEO_MOBILE } from "./media";
 
 export const services: Service[] = [
   {
     slug: "welcome-package",
     image: IMG.welcome,
-    alt: { en: "Refined residence interior ready for arrival", zh: "精緻住宅室內，迎接抵港" },
+    alt: {
+      en: "Modern residence entrance — arrival and settling in Hong Kong",
+      zh: "現代住宅入口 — 抵港安頓",
+    },
     name: { en: "Welcome Package", zh: "抵港安頓套餐" },
     tagline: { en: "A settled start to life in Hong Kong.", zh: "為您的香港生活打好基礎。" },
     fromHkd: 4000,
@@ -91,8 +114,8 @@ export const services: Service[] = [
     slug: "bodyguard-service",
     image: IMG.bodyguard,
     alt: {
-      en: "Black executive Mercedes for discreet close protection",
-      zh: "黑色行政平治座駕，低調貼身保護",
+      en: "Licensed close-protection officer in formal attire",
+      zh: "著正裝的持牌貼身保護人員",
     },
     name: { en: "Bodyguard Service", zh: "貼身保護服務" },
     tagline: {
@@ -111,8 +134,8 @@ export const services: Service[] = [
         zh: "我們的保護服務由具備行政及家庭安全經驗的 SGSIA 持牌貼身保護人員提供，重點在於預防、謹慎與良好判斷，而非展示武力。",
       },
       {
-        en: "Whether you need cover for a single sensitive appointment, ongoing executive protection, or security for a private event, we plan around your routine and keep your profile low.",
-        zh: "無論是單次敏感行程、持續的行政保護，或私人活動保安，我們均會配合您的日常安排，並保持低調。",
+        en: "Whether you need cover for a single sensitive appointment, ongoing executive protection, or security for a private event, we plan around your routine and keep your profile low. Luxury vehicle and chauffeur coordination available.",
+        zh: "無論是單次敏感行程、持續的行政保護，或私人活動保安，我們均會配合您的日常安排，並保持低調。可協調豪華車輛及司機。",
       },
     ],
     included: [
@@ -176,8 +199,8 @@ export const services: Service[] = [
     slug: "babysitting-pickup",
     image: IMG.babysitting,
     alt: {
-      en: "Warm, attentive care with mother and children",
-      zh: "溫暖細心的母子陪伴時刻",
+      en: "Trusted carer with a young child in a calm setting",
+      zh: "可信看護與幼童於平靜環境中",
     },
     name: { en: "Babysitting & After-School Pickup", zh: "保姆及放學接送" },
     tagline: { en: "Trusted care and safe school pickups.", zh: "可信的照顧與安全的放學接送。" },
@@ -216,7 +239,10 @@ export const services: Service[] = [
   {
     slug: "social-accompaniment",
     image: IMG.social,
-    alt: { en: "Elegant evening table in soft light", zh: "柔光下的優雅晚間場合" },
+    alt: {
+      en: "Companions walking together in the city",
+      zh: "城中結伴同行",
+    },
     name: { en: "Social Accompaniment", zh: "社交陪伴服務" },
     tagline: { en: "Friendly company for newcomers.", zh: "為初來港者提供友善陪伴。" },
     fromHkd: 250,
@@ -254,7 +280,10 @@ export const services: Service[] = [
   {
     slug: "gastronomic-reservations",
     image: IMG.dining,
-    alt: { en: "Fine dining table in soft light", zh: "柔光下的精緻餐桌" },
+    alt: {
+      en: "Private chef preparing a refined dish — table reservations & private dining",
+      zh: "私人廚師精心配菜 — 訂座及私人宴客",
+    },
     name: { en: "Gastronomic Reservations", zh: "名廚餐廳訂座" },
     tagline: {
       en: "A table at Hong Kong's hardest-to-book restaurants.",
@@ -263,8 +292,8 @@ export const services: Service[] = [
     fromHkd: 500,
     fromUnit: perRequest,
     intro: {
-      en: "Access to sought-after tables, private dining and special-occasion arrangements across Hong Kong's finest restaurants.",
-      zh: "為您安排香港頂級餐廳的熱門座位、私人宴客及特別場合。",
+      en: "Access to sought-after tables, private dining and special-occasion arrangements across Hong Kong's finest restaurants — including private chef coordination when required.",
+      zh: "為您安排香港頂級餐廳的熱門座位、私人宴客及特別場合，亦可協調私人廚師。",
     },
     body: [
       {
@@ -296,8 +325,8 @@ export const services: Service[] = [
     slug: "administrative-concierge",
     image: IMG.admin,
     alt: {
-      en: "Organised executive desk — calm administrative support",
-      zh: "有序的行政書桌 — 從容的文書支援",
+      en: "Organised documents and desk — administrative support",
+      zh: "整齊文件與書桌 — 行政支援",
     },
     name: { en: "Administrative Concierge", zh: "行政事務助理" },
     tagline: { en: "Your errands and paperwork, handled.", zh: "您的瑣事與文書，交由我們處理。" },
