@@ -19,7 +19,6 @@ type Ctx = {
   lang: Lang;
   setLang: (l: Lang) => void;
   t: (key: string) => string;
-  /** Localised price string: USD in English, HKD in Traditional Chinese. */
   price: (hkd: number) => string;
 };
 
@@ -52,7 +51,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, l);
     } catch {
-      /* storage unavailable — language still applies for this visit */
+      /* ignore */
     }
   }, []);
 
@@ -78,7 +77,6 @@ export function useI18n() {
   return ctx;
 }
 
-/** Pick the right side of a bilingual content pair. */
 export function useLocalized() {
   const { lang } = useI18n();
   return useCallback((pair: { en: string; zh: string }) => pair[lang], [lang]);
@@ -87,15 +85,12 @@ export function useLocalized() {
 type Entry = { en: string; zh: string };
 
 export const dictionary: Record<string, Entry> = {
-  // Brand
   "brand.name": { en: "HK Concierge & Bridge", zh: "HK Concierge & Bridge" },
   "brand.short": { en: "Hong Kong", zh: "香港" },
   "brand.tagline": {
     en: "Private concierge & close protection · Hong Kong",
     zh: "私人管家服務及貼身保護 · 香港",
   },
-
-  // Nav
   "nav.home": { en: "Home", zh: "首頁" },
   "nav.services": { en: "Services", zh: "服務" },
   "nav.pricing": { en: "Pricing", zh: "價目" },
@@ -105,8 +100,6 @@ export const dictionary: Record<string, Entry> = {
   "nav.menu": { en: "Menu", zh: "選單" },
   "nav.close": { en: "Close", zh: "關閉" },
   "nav.language": { en: "Language", zh: "語言" },
-
-  // Hero
   "hero.eyebrow": { en: "Hong Kong · Est. for expatriates", zh: "香港 · 專為外籍人士而設" },
   "hero.title.a": { en: "Your private", zh: "您在香港的" },
   "hero.title.b": { en: "bridge to Hong Kong", zh: "私人橋樑" },
@@ -117,8 +110,6 @@ export const dictionary: Record<string, Entry> = {
   "hero.cta.primary": { en: "Book a Service", zh: "預約服務" },
   "hero.cta.secondary": { en: "Contact Us", zh: "聯絡我們" },
   "hero.scroll": { en: "Discover", zh: "向下瀏覽" },
-
-  // Trust
   "trust.sgsia": { en: "SGSIA Licensed", zh: "SGSIA 持牌" },
   "trust.sgsia.desc": { en: "Professional close protection", zh: "專業貼身保護" },
   "trust.discreet": { en: "Discreet & Reliable", zh: "謹慎可靠" },
@@ -127,8 +118,6 @@ export const dictionary: Record<string, Entry> = {
   "trust.multilingual.desc": { en: "English · Français · 中文", zh: "英語 · 法語 · 中文" },
   "trust.expat": { en: "Expat-Focused", zh: "外籍人士專屬" },
   "trust.expat.desc": { en: "Built around the needs of newcomers", zh: "為初到香港者而設" },
-
-  // Services overview
   "services.eyebrow": { en: "What we do", zh: "服務範圍" },
   "services.title": {
     en: "A complete concierge for life in Hong Kong",
@@ -153,15 +142,11 @@ export const dictionary: Record<string, Entry> = {
     en: "Seven considered services, delivered by one discreet team. Each request is confirmed personally before anything proceeds.",
     zh: "七項精心設計的服務，由同一支低調團隊執行。每項請求均會親自確認後才安排。",
   },
-
-  // Featured
   "featured.eyebrow": { en: "Featured", zh: "重點服務" },
   "featured.title": {
     en: "Where we make the biggest difference",
     zh: "我們最能為您帶來改變之處",
   },
-
-  // How it works
   "how.eyebrow": { en: "How it works", zh: "服務流程" },
   "how.title": { en: "Four simple steps", zh: "四個簡單步驟" },
   "how.intro": {
@@ -188,8 +173,6 @@ export const dictionary: Record<string, Entry> = {
     en: "Your dedicated contact handles everything with discretion.",
     zh: "專屬聯絡人會謹慎周全地處理一切。",
   },
-
-  // Why us
   "why.eyebrow": { en: "Why HK Concierge & Bridge", zh: "為何選擇我們" },
   "why.title": { en: "Two disciplines, one trusted team", zh: "兩種專業，同一支團隊" },
   "why.intro": {
@@ -216,8 +199,6 @@ export const dictionary: Record<string, Entry> = {
     en: "We understand the expat experience and meet you where you are — in your language where we can.",
     zh: "我們理解外籍人士的處境，並盡可能以您的語言與您溝通。",
   },
-
-  // About
   "about.eyebrow": { en: "About us", zh: "關於我們" },
   "about.title": { en: "A trusted bridge to life in Hong Kong", zh: "通往香港生活的可靠橋樑" },
   "about.lede": {
@@ -243,8 +224,6 @@ export const dictionary: Record<string, Entry> = {
   },
   "about.values.eyebrow": { en: "What we stand for", zh: "我們的信念" },
   "about.values.title": { en: "Our values", zh: "核心價值" },
-
-  // Pricing
   "pricing.eyebrow": { en: "Pricing", zh: "價目" },
   "pricing.title": { en: "Clear, indicative pricing", zh: "清晰的參考價格" },
   "pricing.intro": {
@@ -261,8 +240,6 @@ export const dictionary: Record<string, Entry> = {
   "pricing.table.option": { en: "Option", zh: "選項" },
   "pricing.table.price": { en: "Price", zh: "價格" },
   "pricing.currency.note.en": { en: "Showing prices in USD", zh: "價格以港幣顯示" },
-
-  // CTA
   "cta.eyebrow": { en: "Speak with us", zh: "與我們聯絡" },
   "cta.title": {
     en: "Tell us what you need. We'll handle the rest.",
@@ -274,8 +251,7 @@ export const dictionary: Record<string, Entry> = {
   },
   "cta.email": { en: "Or email us directly at", zh: "亦可直接電郵至" },
   "cta.whatsapp": { en: "Chat on WhatsApp", zh: "WhatsApp 聯絡" },
-
-  // Contact / booking
+  "cta.wechat": { en: "WeChat", zh: "微信" },
   "contact.eyebrow": { en: "Book a service", zh: "預約服務" },
   "contact.title": { en: "Request your service", zh: "提交服務請求" },
   "contact.intro": {
@@ -305,7 +281,6 @@ export const dictionary: Record<string, Entry> = {
   "form.error.name": { en: "Please enter your name.", zh: "請輸入姓名。" },
   "form.error.email": { en: "Please enter a valid email.", zh: "請輸入有效的電子郵箱。" },
   "form.error.service": { en: "Please choose a service.", zh: "請選擇服務項目。" },
-
   "contact.direct.title": { en: "Direct lines", zh: "直接聯絡" },
   "contact.phone": { en: "Phone / WhatsApp", zh: "電話 / WhatsApp" },
   "contact.emailLabel": { en: "Email", zh: "電子郵箱" },
@@ -319,8 +294,6 @@ export const dictionary: Record<string, Entry> = {
     en: "Hong Kong Island, Kowloon and the New Territories.",
     zh: "香港島、九龍及新界。",
   },
-
-  // Footer
   "footer.services": { en: "Services", zh: "服務" },
   "footer.company": { en: "Company", zh: "公司" },
   "footer.contact": { en: "Contact", zh: "聯絡" },
@@ -329,4 +302,16 @@ export const dictionary: Record<string, Entry> = {
     en: "Close protection provided under SGSIA licence.",
     zh: "貼身保護服務由 SGSIA 持牌人員提供。",
   },
+  "cart.title": { en: "Your request list", zh: "您的服務清單" },
+  "cart.empty": { en: "No services selected yet.", zh: "尚未選擇服務。" },
+  "cart.add": { en: "Add to request list", zh: "加入清單" },
+  "cart.remove": { en: "Remove", zh: "移除" },
+  "cart.clear": { en: "Clear list", zh: "清空清單" },
+  "cart.total": { en: "Indicative total", zh: "參考合計" },
+  "cart.note": {
+    en: "This is a request list — not an online payment. We confirm availability and quote personally.",
+    zh: "此為預約清單，非線上付款。我們會親自確認檔期並報價。",
+  },
+  "cart.checkout.wa": { en: "Send list on WhatsApp", zh: "以 WhatsApp 傳送清單" },
+  "cart.checkout.form": { en: "Continue with form", zh: "改用表格提交" },
 };
