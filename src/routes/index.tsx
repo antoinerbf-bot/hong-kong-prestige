@@ -4,7 +4,7 @@ import { useI18n, useLocalized } from "@/lib/i18n";
 import { services, featuredSlugs, CONTACT } from "@/lib/services";
 import { Reveal } from "@/components/Reveal";
 import { HeroShowcase } from "@/components/HeroShowcase";
-import { ServiceRail } from "@/components/ServiceRail";
+import { ServiceGrid } from "@/components/ServiceGrid";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { HeroTitle } from "@/components/HeroTitle";
 
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Settle into Hong Kong with calm, discretion and care. Premium concierge and SGSIA-licensed close protection.",
+          "Premium concierge, relocation, lifestyle support and SGSIA-licensed close protection for expatriates in Hong Kong. Handled with discretion and professionalism.",
       },
     ],
   }),
@@ -53,18 +53,16 @@ function Index() {
 
   return (
     <>
-      <section className="relative flex min-h-[88vh] items-end overflow-hidden sm:min-h-[92vh]">
+      {/* Hero — official messaging, cinematic media */}
+      <section className="relative flex min-h-[85vh] items-end overflow-hidden sm:min-h-[90vh]">
         <HeroShowcase />
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-28 sm:px-8 sm:pb-28 sm:pt-32">
-          <p className="eyebrow mb-5">{t("hero.eyebrow")}</p>
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-28 sm:px-8 sm:pb-24 sm:pt-32">
+          <p className="eyebrow mb-6">{t("hero.eyebrow")}</p>
           <HeroTitle />
-          <p className="mt-6 max-w-lg text-[0.95rem] leading-relaxed text-foreground/85 sm:text-lg">
-            {t("hero.subtitle")}
-          </p>
-          <div className="mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
+          <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-champagne px-6 py-3.5 text-sm font-medium text-primary-foreground transition hover:bg-champagne-soft"
+              className="inline-flex items-center gap-2 rounded-full bg-champagne px-7 py-3.5 text-sm font-medium tracking-wide text-primary-foreground transition hover:bg-champagne-soft"
             >
               {t("hero.cta.primary")}
               <ArrowRight className="h-4 w-4" aria-hidden />
@@ -73,14 +71,14 @@ function Index() {
               href={CONTACT.whatsapp}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium transition hover:border-champagne/50 hover:text-champagne"
+              className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/40 px-6 py-3.5 text-sm font-medium backdrop-blur-sm transition hover:border-champagne/50 hover:text-champagne"
             >
               {t("cta.whatsapp")}
             </a>
           </div>
           <a
-            href="#trust"
-            className="mt-14 inline-flex items-center gap-2 text-xs tracking-[0.22em] text-muted-foreground uppercase transition hover:text-champagne"
+            href="#services"
+            className="mt-12 inline-flex items-center gap-2 text-[11px] tracking-[0.24em] text-muted-foreground uppercase transition hover:text-champagne"
           >
             {t("hero.scroll")}
             <ChevronDown className="h-3.5 w-3.5" aria-hidden />
@@ -88,20 +86,25 @@ function Index() {
         </div>
       </section>
 
-      <section id="trust" className="border-y border-border bg-card/40">
+      {/* Trust strip — like official site */}
+      <section id="trust" className="border-b border-border bg-card/50">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px md:grid-cols-4">
           {trust.map((item, i) => (
-            <Reveal key={item.title} delay={i * 70} className="px-4 py-8 sm:px-8 sm:py-10">
-              <item.icon className="mb-3 h-5 w-5 text-champagne" strokeWidth={1.4} aria-hidden />
-              <h3 className="text-sm font-medium tracking-wide">{item.title}</h3>
+            <Reveal key={item.title} delay={i * 50} className="px-5 py-8 sm:px-8 sm:py-10">
+              <item.icon className="mb-3 h-5 w-5 text-champagne" strokeWidth={1.35} aria-hidden />
+              <h3 className="text-sm font-medium tracking-wide text-foreground">{item.title}</h3>
               <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{item.desc}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <ServiceRail />
+      {/* Services — grid, not horizontal rail */}
+      <div id="services">
+        <ServiceGrid />
+      </div>
 
+      {/* Featured deep-dive */}
       <section className="cv-auto mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <Reveal>
           <p className="eyebrow">{t("featured.eyebrow")}</p>
@@ -109,28 +112,28 @@ function Index() {
             {t("featured.title")}
           </h2>
         </Reveal>
-        <div className="mt-12 space-y-10">
+        <div className="mt-12 space-y-8">
           {featured.map((s, i) => (
-            <Reveal key={s.slug} delay={i * 60}>
+            <Reveal key={s.slug} delay={i * 50}>
               <Link
                 to="/services/$slug"
                 params={{ slug: s.slug }}
-                className="group grid overflow-hidden rounded-2xl border border-border bg-card/40 transition hover:border-champagne/30 md:grid-cols-2"
+                className="group grid overflow-hidden rounded-2xl border border-border bg-card transition hover:border-champagne/30 md:grid-cols-2"
               >
                 <ParallaxImage
                   src={s.image}
                   alt={L(s.alt)}
-                  className={`aspect-[16/10] md:aspect-auto md:min-h-[300px] ${i % 2 === 1 ? "md:order-2" : ""}`}
-                  intensity={0.16}
+                  className={`aspect-[16/10] md:aspect-auto md:min-h-[280px] ${i % 2 === 1 ? "md:order-2" : ""}`}
+                  intensity={0.12}
                 />
-                <div className="flex flex-col justify-center p-7 sm:p-12">
+                <div className="flex flex-col justify-center p-7 sm:p-11">
                   <h3 className="font-display text-2xl leading-snug tracking-wide sm:text-3xl">
                     {L(s.name)}
                   </h3>
                   <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
                     {L(s.intro)}
                   </p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm text-champagne">
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-champagne">
                     {t("services.learn")}
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" aria-hidden />
                   </span>
@@ -150,8 +153,8 @@ function Index() {
           </Reveal>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
-              <Reveal key={step.n} delay={i * 60}>
-                <span className="font-display text-4xl text-champagne/35">{step.n}</span>
+              <Reveal key={step.n} delay={i * 50}>
+                <span className="font-display text-4xl text-champagne/40">{step.n}</span>
                 <h3 className="mt-3 text-base font-medium">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.desc}</p>
               </Reveal>
@@ -170,7 +173,7 @@ function Index() {
         </Reveal>
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
           {why.map((item, i) => (
-            <Reveal key={item.title} delay={i * 50}>
+            <Reveal key={item.title} delay={i * 40}>
               <div className="surface-card rounded-xl p-6 sm:p-8">
                 <h3 className="font-display text-xl text-champagne">{item.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
@@ -182,7 +185,7 @@ function Index() {
 
       <section className="cv-auto mx-auto max-w-7xl px-5 pb-20 sm:px-8 sm:pb-28">
         <Reveal>
-          <div className="rounded-2xl border border-border bg-card/50 px-6 py-14 text-center sm:px-16">
+          <div className="rounded-2xl border border-border bg-card px-6 py-14 text-center sm:px-16">
             <p className="eyebrow">{t("cta.eyebrow")}</p>
             <h2 className="font-display mt-4 text-3xl tracking-tight sm:text-4xl">{t("cta.title")}</h2>
             <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">{t("cta.intro")}</p>
