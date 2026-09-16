@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services, HERO_IMAGES } from "@/lib/services";
 import { cn } from "@/lib/utils";
@@ -10,25 +10,28 @@ export function HeroShowcase() {
   const { t } = useI18n();
   const L = useLocalized();
 
-  const slides = [
-    {
-      src: HERO_IMAGES[0]!,
-      label: { en: "Victoria Harbour · Hong Kong", zh: "維多利亞港 · 香港" },
-    },
-    {
-      src: HERO_IMAGES[1]!,
-      label: { en: "Hong Kong at dusk", zh: "香港黃昏" },
-    },
-    ...services.map((s) => ({
-      src: s.image,
-      label: s.name,
-    })),
-  ];
+  const slides = useMemo(
+    () => [
+      {
+        src: HERO_IMAGES[0]!,
+        label: { en: "Victoria Harbour · Hong Kong", zh: "維多利亞港 · 香港" },
+      },
+      {
+        src: HERO_IMAGES[1]!,
+        label: { en: "Hong Kong at dusk", zh: "香港黃昏" },
+      },
+      ...services.map((s) => ({
+        src: s.image,
+        label: s.name,
+      })),
+    ],
+    [],
+  );
 
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState<Record<number, boolean>>({ 0: false });
 
-  // LCP preload in <head>
+  // LCP preload once
   useEffect(() => {
     const href = imgUrl(slides[0]!.src, 1280, { quality: 78 });
     const link = document.createElement("link");
@@ -40,16 +43,42 @@ export function HeroShowcase() {
     return () => {
       link.remove();
     };
-  }, []);
+  }, [slides]);
 
+  // Autoplay — pause when tab hidden (saves CPU / battery)
   useEffect(() => {
-    const id = window.setInterval(() => {
+    let id = 0;
+
+    const tick = () => {
       setIndex((i) => (i + 1) % slides.length);
-    }, SLIDE_MS);
-    return () => window.clearInterval(id);
+    };
+
+    const start = () => {
+      if (id) return;
+      id = window.setInterval(tick, SLIDE_MS);
+    };
+
+    const stop = () => {
+      if (!id) return;
+      window.clearInterval(id);
+      id = 0;
+    };
+
+    const onVis = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    if (!document.hidden) start();
+    document.addEventListener("visibilitychange", onVis);
+
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, [slides.length]);
 
-  // Preload adjacent slide only
+  // Preload next slide only
   useEffect(() => {
     const next = (index + 1) % slides.length;
     const img = new Image();
@@ -81,7 +110,7 @@ export function HeroShowcase() {
               loading={i === 0 ? "eager" : "lazy"}
               decoding={i === 0 ? "sync" : "async"}
               fetchPriority={i === 0 ? "high" : "low"}
-              onLoad={() => setLoaded((m) => ({ ...m, [i]: true }))}
+              onLoad={() => setLoaded((m) => (m[i] ? m : { ...m, [i]: true }))}
             />
           </div>
         );

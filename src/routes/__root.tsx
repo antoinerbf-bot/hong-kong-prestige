@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
-  createRootRouteWithContext,
+  createRootRoute,
   useRouter,
   HeadContent,
   Scripts,
@@ -77,7 +76,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -107,7 +106,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      /* LCP: image CDN + fonts early */
       { rel: "preconnect", href: "https://images.unsplash.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://images.unsplash.com" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -116,18 +114,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.gstatic.com",
         crossOrigin: "anonymous",
       },
-      /* Fewer weights = less FOIT/FOUT bandwidth (CLS + LCP) */
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@400;500&family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@400&display=swap",
       },
-      /* LCP image — high priority preload */
       {
         rel: "preload",
         as: "image",
         href: HERO_LCP,
-        // @ts-expect-error fetchPriority is valid on link in modern browsers
-        fetchPriority: "high",
       } as { rel: string; as: string; href: string },
     ],
   }),
@@ -142,7 +136,6 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" className="light">
       <head>
         <HeadContent />
-        {/* Anti-FOUC theme — runs before paint to avoid theme CLS */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('hkcb-theme');if(t==='dark'){document.documentElement.classList.add('dark');document.documentElement.classList.remove('light');}else{document.documentElement.classList.add('light');document.documentElement.classList.remove('dark');}}catch(e){}})();`,
@@ -158,16 +151,13 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <LanguageProvider>
-          <SiteShell>
-            <Outlet />
-          </SiteShell>
-        </LanguageProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <SiteShell>
+          <Outlet />
+        </SiteShell>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
