@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services, CONTACT } from "@/lib/services";
 import { Reveal } from "@/components/Reveal";
@@ -259,7 +259,7 @@ function Field({
 }: {
   label: string;
   error?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <label className="block">

@@ -106,6 +106,40 @@
   }
 }
 
+/* Form controls */
+@layer components {
+  .field-input {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background: color-mix(in oklab, var(--card) 70%, transparent);
+    padding: 0.7rem 0.9rem;
+    font-size: 0.875rem;
+    color: var(--foreground);
+    outline: none;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .field-input:focus {
+    border-color: color-mix(in oklab, var(--champagne) 55%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--champagne) 18%, transparent);
+  }
+
+  .field-input::placeholder {
+    color: var(--muted-foreground);
+  }
+
+  select.field-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9b896' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    padding-right: 2.2rem;
+  }
+}
+
 /* Eyebrow / kicker label */
 @utility eyebrow {
   font-family: var(--font-sans);
