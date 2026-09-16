@@ -3,24 +3,21 @@ import { useI18n, useLocalized } from "@/lib/i18n";
 import { services, HERO_IMAGES } from "@/lib/services";
 import { cn } from "@/lib/utils";
 
-const SLIDE_MS = 5000;
+const SLIDE_MS = 5200;
 
-/**
- * Cinematic hero: real photography — Hong Kong + every service.
- * Soft overlays so text stays readable without looking artificial.
- */
+/** Hero: Hong Kong harbour only + each service — no off-city imagery. */
 export function HeroShowcase() {
   const { t } = useI18n();
   const L = useLocalized();
 
   const slides = [
     {
-      src: HERO_IMAGES[0],
-      label: { en: "Hong Kong · Private Concierge", zh: "香港 · 私人管家服務" },
+      src: HERO_IMAGES[0]!,
+      label: { en: "Victoria Harbour · Hong Kong", zh: "維多利亞港 · 香港" },
     },
     {
-      src: HERO_IMAGES[1],
-      label: { en: "Your bridge to the city", zh: "通往這座城市的橋樑" },
+      src: HERO_IMAGES[1]!,
+      label: { en: "Hong Kong at dusk", zh: "香港黃昏" },
     },
     ...services.map((s) => ({
       src: s.image,
@@ -41,9 +38,9 @@ export function HeroShowcase() {
     <div className="absolute inset-0 overflow-hidden bg-muted">
       {slides.map((slide, i) => (
         <div
-          key={`${slide.src}-${i}`}
+          key={`${i}-${slide.src}`}
           className={cn(
-            "absolute inset-0 transition-opacity duration-[1600ms] ease-in-out",
+            "absolute inset-0 transition-opacity duration-[1500ms] ease-in-out",
             i === index ? "opacity-100" : "opacity-0",
           )}
           aria-hidden={i !== index}
@@ -51,19 +48,13 @@ export function HeroShowcase() {
           <img
             src={slide.src}
             alt=""
-            className={cn(
-              "h-full w-full object-cover",
-              i === index && "ken-burns",
-            )}
+            className={cn("h-full w-full object-cover", i === index && "ken-burns")}
             loading={i === 0 ? "eager" : "lazy"}
           />
         </div>
       ))}
-
-      {/* Softer, clearer overlays — readable without heavy AI look */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/10" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/75 via-background/25 to-transparent" />
-
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/15" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/30 to-transparent" />
       <div className="absolute bottom-6 right-5 z-10 hidden sm:block sm:right-8">
         <p className="text-[10px] tracking-[0.28em] text-champagne uppercase">
           {t("services.eyebrow")}
@@ -80,7 +71,7 @@ export function HeroShowcase() {
               onClick={() => setIndex(i)}
               className={cn(
                 "h-1 rounded-full transition-all",
-                i === index ? "w-6 bg-champagne" : "w-1.5 bg-foreground/25 hover:bg-foreground/45",
+                i === index ? "w-6 bg-champagne" : "w-1.5 bg-foreground/25",
               )}
             />
           ))}
