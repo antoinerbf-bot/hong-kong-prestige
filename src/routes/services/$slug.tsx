@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, Check, ShoppingBag, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ShoppingBag, MessageCircle } from "@/icons";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { getService, services, CONTACT } from "@/lib/services";
 import { useCart } from "@/lib/cart";
@@ -44,6 +44,7 @@ function ServiceDetail() {
           alt={L(service.alt)}
           className="h-[42vh] min-h-[260px] w-full sm:h-[52vh]"
           intensity={0.22}
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/20" />
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-5 pb-10 sm:px-8 sm:pb-14">
@@ -51,7 +52,7 @@ function ServiceDetail() {
             to="/services"
             className="inline-flex items-center gap-2 text-xs tracking-wide text-foreground/80 transition hover:text-champagne"
           >
-            <ArrowLeft className="h-3.5 w-3.5" />
+            <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
             {t("services.back")}
           </Link>
           <h1 className="font-display mt-4 max-w-3xl text-3xl tracking-tight text-foreground sm:text-5xl md:text-6xl">
@@ -80,7 +81,7 @@ function ServiceDetail() {
               <ul className="mt-5 space-y-3">
                 {service.included.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-foreground/90">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-champagne" strokeWidth={1.5} />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-champagne" strokeWidth={1.5} aria-hidden />
                     {L(item)}
                   </li>
                 ))}
@@ -133,7 +134,7 @@ function ServiceDetail() {
                   onClick={() => add(service.slug, tierIndex)}
                   className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-champagne px-5 py-3.5 text-sm font-medium text-primary-foreground transition hover:bg-champagne-soft"
                 >
-                  <ShoppingBag className="h-4 w-4" />
+                  <ShoppingBag className="h-4 w-4" aria-hidden />
                   {t("cart.add")} — {price(selected.hkd)}
                 </button>
 
@@ -143,7 +144,7 @@ function ServiceDetail() {
                   rel="noreferrer"
                   className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-medium text-white transition hover:brightness-110"
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-4 w-4" aria-hidden />
                   {t("cta.whatsapp")}
                 </a>
 
@@ -153,7 +154,7 @@ function ServiceDetail() {
                   className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-sm transition hover:border-champagne/40 hover:text-champagne"
                 >
                   {t("services.request")}
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
 
                 <a

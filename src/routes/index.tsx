@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Shield, Eye, Languages, Users, ArrowRight, ChevronDown } from "lucide-react";
+import { Shield, Eye, Languages, Users, ArrowRight, ChevronDown } from "@/icons";
 import { useI18n, useLocalized } from "@/lib/i18n";
 import { services, featuredSlugs, CONTACT } from "@/lib/services";
 import { Reveal } from "@/components/Reveal";
@@ -67,7 +67,7 @@ function Index() {
               className="inline-flex items-center gap-2 rounded-full bg-champagne px-6 py-3.5 text-sm font-medium text-primary-foreground transition hover:bg-champagne-soft"
             >
               {t("hero.cta.primary")}
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
             <a
               href={CONTACT.whatsapp}
@@ -83,7 +83,7 @@ function Index() {
             className="mt-14 inline-flex items-center gap-2 text-xs tracking-[0.22em] text-muted-foreground uppercase transition hover:text-champagne"
           >
             {t("hero.scroll")}
-            <ChevronDown className="h-3.5 w-3.5" />
+            <ChevronDown className="h-3.5 w-3.5" aria-hidden />
           </a>
         </div>
       </section>
@@ -92,7 +92,7 @@ function Index() {
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px md:grid-cols-4">
           {trust.map((item, i) => (
             <Reveal key={item.title} delay={i * 70} className="px-4 py-8 sm:px-8 sm:py-10">
-              <item.icon className="mb-3 h-5 w-5 text-champagne" strokeWidth={1.4} />
+              <item.icon className="mb-3 h-5 w-5 text-champagne" strokeWidth={1.4} aria-hidden />
               <h3 className="text-sm font-medium tracking-wide">{item.title}</h3>
               <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{item.desc}</p>
             </Reveal>
@@ -102,7 +102,7 @@ function Index() {
 
       <ServiceRail />
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+      <section className="cv-auto mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <Reveal>
           <p className="eyebrow">{t("featured.eyebrow")}</p>
           <h2 className="font-display mt-3 max-w-2xl text-3xl leading-tight tracking-tight sm:text-4xl">
@@ -132,7 +132,7 @@ function Index() {
                   </p>
                   <span className="mt-6 inline-flex items-center gap-2 text-sm text-champagne">
                     {t("services.learn")}
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" aria-hidden />
                   </span>
                 </div>
               </Link>
@@ -141,7 +141,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="border-y border-border bg-card/30">
+      <section className="cv-auto border-y border-border bg-card/30">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
           <Reveal>
             <p className="eyebrow">{t("how.eyebrow")}</p>
@@ -160,7 +160,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+      <section className="cv-auto mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <Reveal>
           <p className="eyebrow">{t("why.eyebrow")}</p>
           <h2 className="font-display mt-3 max-w-2xl text-3xl tracking-tight sm:text-4xl">
@@ -180,7 +180,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8 sm:pb-28">
+      <section className="cv-auto mx-auto max-w-7xl px-5 pb-20 sm:px-8 sm:pb-28">
         <Reveal>
           <div className="rounded-2xl border border-border bg-card/50 px-6 py-14 text-center sm:px-16">
             <p className="eyebrow">{t("cta.eyebrow")}</p>
@@ -192,7 +192,7 @@ function Index() {
                 className="inline-flex items-center gap-2 rounded-full bg-champagne px-6 py-3.5 text-sm font-medium text-primary-foreground transition hover:bg-champagne-soft"
               >
                 {t("nav.book")}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <a
                 href={CONTACT.whatsapp}
