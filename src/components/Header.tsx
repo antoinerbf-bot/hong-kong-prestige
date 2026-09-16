@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, ShoppingBag } from "lucide-react";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
+import { useCart } from "@/lib/cart";
 import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 
@@ -17,18 +18,19 @@ const nav = [
 export function Header() {
   const { lang, setLang, t } = useI18n();
   const { theme, toggle } = useTheme();
-  const [open, setOpen] = useState(false);
+  const { count, setOpen } = useCart();
+  const [open, setMenuOpen] = useState(false);
   const onDark = theme === "dark";
 
   const switchLang = (l: Lang) => {
     setLang(l);
-    setOpen(false);
+    setMenuOpen(false);
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl transition-colors">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl transition-colors">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-8">
-        <Link to="/" className="min-w-0 shrink" onClick={() => setOpen(false)} aria-label={t("brand.name")}>
+        <Link to="/" className="min-w-0 shrink" onClick={() => setMenuOpen(false)} aria-label={t("brand.name")}>
           <Logo onDark={onDark} />
         </Link>
 
@@ -47,9 +49,23 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             type="button"
+            onClick={() => setOpen(true)}
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition hover:border-champagne/40 hover:text-champagne"
+            aria-label={t("cart.title")}
+          >
+            <ShoppingBag className="h-4 w-4" />
+            {count > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-champagne px-1 text-[10px] font-medium text-primary-foreground">
+                {count}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
             onClick={toggle}
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition hover:border-champagne/40 hover:text-champagne"
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            aria-label={theme === "dark" ? "Light mode" : "Dark mode"}
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
@@ -96,7 +112,7 @@ export function Header() {
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground lg:hidden"
             aria-label={open ? t("nav.close") : t("nav.menu")}
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setMenuOpen((v) => !v)}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -110,7 +126,7 @@ export function Header() {
               <Link
                 key={item.to}
                 to={item.to}
-                onClick={() => setOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="rounded-lg px-3 py-3 text-sm tracking-wide text-foreground/90 hover:bg-accent"
               >
                 {t(item.key)}
@@ -137,18 +153,10 @@ export function Header() {
               >
                 繁中
               </button>
-              <button
-                type="button"
-                onClick={toggle}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs"
-              >
-                {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-                {theme === "dark" ? "Light" : "Dark"}
-              </button>
             </div>
             <Link
               to="/contact"
-              onClick={() => setOpen(false)}
+              onClick={() => setMenuOpen(false)}
               className="mt-3 rounded-full bg-champagne px-4 py-3 text-center text-sm font-medium text-primary-foreground"
             >
               {t("nav.book")}
