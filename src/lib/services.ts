@@ -27,38 +27,41 @@ const perSession: Pair = { en: "/ session", zh: "/ 次" };
 const perRequest: Pair = { en: "/ request", zh: "/ 次" };
 const perTask: Pair = { en: "/ task", zh: "/ 項" };
 
-const q = "auto=format&fit=crop&w=1400&q=82";
-const qHero = "auto=format&fit=crop&w=1920&q=85";
+const q = "auto=format&fit=crop&w=1600&h=1000&q=85";
+const qHero = "auto=format&fit=crop&w=2000&h=1200&q=88";
 
 /**
- * Photography direction: luxury · professional · serious · Hong Kong energy.
- * Real photos — no playful stock, no AI look.
+ * All imagery: Hong Kong / luxury executive tone.
+ * Fixed aspect via Unsplash crop params for consistent layout.
  */
 const IMG = {
-  /* Victoria Harbour / HK skyline at night — iconic, serious */
+  /* Victoria Harbour night — Hong Kong only */
   hero: `https://images.unsplash.com/photo-1536599018102-9f803c140fc1?${qHero}`,
-  hero2: `https://images.unsplash.com/photo-1518684079-3c830dcef090?${qHero}`,
+  hero2: `https://images.unsplash.com/photo-1570168007204-dfb528c6958f?${qHero}`,
 
-  /* Welcome — refined modern residence, quiet luxury */
-  welcome: `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?${q}`,
+  /* Welcome — refined interior, quiet luxury (not generic villa stock) */
+  welcome: `https://images.unsplash.com/photo-1600585154526-990dced4db0d?${q}`,
 
-  /* Bodyguard — black executive vehicle, discreet power */
-  bodyguard: `https://images.unsplash.com/photo-1503376780353-7e6692767b70?${q}`,
+  /* Bodyguard / chauffeur — black executive car */
+  bodyguard: `https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?${q}`,
 
-  /* Dog walking — composed companion, urban, not cute-stock */
+  /* Van / MPV luxury-style people carrier feel */
+  van: `https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?${q}`,
+
+  /* Dog — composed, premium lifestyle */
   dog: `https://images.unsplash.com/photo-1587300003388-59208cc962cb?${q}`,
 
-  /* Babysitting — calm, trustworthy family moment */
+  /* Babysitting — warm, elegant mother & children */
   babysitting: `https://images.unsplash.com/photo-1476703993599-0035a21b17a9?${q}`,
 
-  /* Social — elegant city evening, adult, refined */
+  /* Social — refined dining room / evening */
   social: `https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?${q}`,
 
-  /* Gastronomy — fine dining, low light, serious table */
+  /* Fine dining */
   dining: `https://images.unsplash.com/photo-1414235077428-338989a2e8c0?${q}`,
 
-  /* Admin — executive workspace, organised, professional */
-  admin: `https://images.unsplash.com/photo-1497366216548-37526070297c?${q}`,
+  /* Admin — focused professional desk work */
+  admin: `https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?${q}`,
 };
 
 export const HERO_IMAGES = [IMG.hero, IMG.hero2];
@@ -68,8 +71,8 @@ export const services: Service[] = [
     slug: "welcome-package",
     image: IMG.welcome,
     alt: {
-      en: "Refined modern residence prepared for arrival",
-      zh: "為抵港準備的精緻現代住宅",
+      en: "Refined Hong Kong residence interior",
+      zh: "精緻的香港住宅室內",
     },
     name: { en: "Welcome Package", zh: "抵港安頓套餐" },
     tagline: { en: "A settled start to life in Hong Kong.", zh: "為您的香港生活打好基礎。" },
@@ -109,8 +112,8 @@ export const services: Service[] = [
     slug: "bodyguard-service",
     image: IMG.bodyguard,
     alt: {
-      en: "Black executive vehicle — discreet close protection",
-      zh: "黑色行政座駕 — 低調貼身保護",
+      en: "Black executive vehicle for discreet protection in Hong Kong",
+      zh: "黑色行政座駕，香港低調保護服務",
     },
     name: { en: "Bodyguard Service", zh: "貼身保護服務" },
     tagline: {
@@ -138,6 +141,7 @@ export const services: Service[] = [
       { en: "Executive protection", zh: "行政人員保護" },
       { en: "Family protection", zh: "家庭保護" },
       { en: "Event & venue security", zh: "活動及場地保安" },
+      { en: "Chauffeur & luxury vehicle coordination", zh: "司機及豪華車輛協調" },
     ],
     benefits: [
       { en: "Licensed officers, vetted and experienced", zh: "持牌人員，經審核且經驗豐富" },
@@ -155,8 +159,8 @@ export const services: Service[] = [
     slug: "dog-walking",
     image: IMG.dog,
     alt: {
-      en: "Well-cared-for dog on a composed outdoor walk",
-      zh: "細心照料的愛犬於戶外從容散步",
+      en: "Well-groomed dog on a calm outdoor walk",
+      zh: "梳理妥當的愛犬於戶外從容散步",
     },
     name: { en: "Dog Walking", zh: "寵物散步服務" },
     tagline: { en: "Reliable, caring walks for your dog.", zh: "細心可靠的愛犬散步服務。" },
@@ -196,8 +200,8 @@ export const services: Service[] = [
     slug: "babysitting-pickup",
     image: IMG.babysitting,
     alt: {
-      en: "Trusted family care in a calm setting",
-      zh: "平靜環境下可信賴的家庭照顧",
+      en: "Attentive care with children in a calm home setting",
+      zh: "平靜家居中細心照顧兒童",
     },
     name: { en: "Babysitting & After-School Pickup", zh: "保姆及放學接送" },
     tagline: { en: "Trusted care and safe school pickups.", zh: "可信的照顧與安全的放學接送。" },
@@ -237,8 +241,8 @@ export const services: Service[] = [
     slug: "social-accompaniment",
     image: IMG.social,
     alt: {
-      en: "Refined evening setting for discreet company",
-      zh: "精緻晚宴場合，低調陪伴",
+      en: "Elegant evening setting in the city",
+      zh: "城中優雅的晚間場合",
     },
     name: { en: "Social Accompaniment", zh: "社交陪伴服務" },
     tagline: { en: "Friendly company for newcomers.", zh: "為初來港者提供友善陪伴。" },
@@ -250,8 +254,8 @@ export const services: Service[] = [
     },
     body: [
       {
-        en: "Settling into Hong Kong is easier with company. Our accompaniment service offers genuine, considerate companionship for those finding their feet — whether a newcomer, a visiting parent, or anyone who would value a friendly presence.",
-        zh: "有人相伴，適應香港更容易。我們的陪伴服務為正在適應的客戶提供真誠體貼的陪伴，無論是新來港人士、來訪的父母，或任何希望有人相伴的客戶。",
+        en: "Settling into Hong Kong is easier with company. Our accompaniment service offers genuine, considerate companionship for those finding their feet.",
+        zh: "有人相伴，適應香港更容易。我們的陪伴服務為正在適應的客戶提供真誠體貼的陪伴。",
       },
       {
         en: "Enjoy a harbour walk, a coffee meetup, or a guided cultural outing, at a pace that suits you.",
@@ -278,8 +282,8 @@ export const services: Service[] = [
     slug: "gastronomic-reservations",
     image: IMG.dining,
     alt: {
-      en: "Fine dining table — private, exacting, refined",
-      zh: "精緻餐桌 — 私密、講究、優雅",
+      en: "Fine dining table in soft light",
+      zh: "柔光下的精緻餐桌",
     },
     name: { en: "Gastronomic Reservations", zh: "名廚餐廳訂座" },
     tagline: {
@@ -322,8 +326,8 @@ export const services: Service[] = [
     slug: "administrative-concierge",
     image: IMG.admin,
     alt: {
-      en: "Quiet executive workspace — organised and precise",
-      zh: "安靜的行政工作空間 — 有序精準",
+      en: "Professional desk — organised executive support",
+      zh: "專業書桌 — 有序的行政支援",
     },
     name: { en: "Administrative Concierge", zh: "行政事務助理" },
     tagline: { en: "Your errands and paperwork, handled.", zh: "您的瑣事與文書，交由我們處理。" },
