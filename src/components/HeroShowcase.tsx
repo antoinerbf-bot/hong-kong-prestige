@@ -28,6 +28,20 @@ export function HeroShowcase() {
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState<Record<number, boolean>>({ 0: false });
 
+  // LCP preload in <head>
+  useEffect(() => {
+    const href = imgUrl(slides[0]!.src, 1280, { quality: 78 });
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = href;
+    link.setAttribute("fetchpriority", "high");
+    document.head.appendChild(link);
+    return () => {
+      link.remove();
+    };
+  }, []);
+
   useEffect(() => {
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
@@ -35,20 +49,17 @@ export function HeroShowcase() {
     return () => window.clearInterval(id);
   }, [slides.length]);
 
-  // Preload next slide
+  // Preload adjacent slide only
   useEffect(() => {
     const next = (index + 1) % slides.length;
     const img = new Image();
-    img.src = imgUrl(slides[next]!.src, 1280, { quality: 75 });
+    img.decoding = "async";
+    img.src = imgUrl(slides[next]!.src, 1100, { quality: 70 });
   }, [index, slides]);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-muted">
-      {/* Preload LCP hero */}
-      <link rel="preload" as="image" href={imgUrl(slides[0]!.src, 1280, { quality: 78 })} />
-
       {slides.map((slide, i) => {
-        // Only mount nearby slides to cut decode cost
         const near = Math.abs(i - index) <= 1 || i === 0;
         if (!near && !loaded[i]) return null;
 
@@ -66,10 +77,7 @@ export function HeroShowcase() {
               srcSet={imgSrcSet(slide.src, [640, 960, 1280, 1600], i === 0 ? 78 : 70)}
               sizes={SIZES.hero}
               alt=""
-              className={cn(
-                "h-full w-full object-cover",
-                i === index && "ken-burns",
-              )}
+              className={cn("h-full w-full object-cover", i === index && "ken-burns")}
               loading={i === 0 ? "eager" : "lazy"}
               decoding={i === 0 ? "sync" : "async"}
               fetchPriority={i === 0 ? "high" : "low"}
