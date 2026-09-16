@@ -30,43 +30,23 @@ const perTask: Pair = { en: "/ task", zh: "/ 項" };
 const base = (id: string) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=80`;
 
-/**
- * Curated luxury / Hong Kong–coherent photography.
- * Bodyguard = black executive sedan (no blue Fiat).
- * Babysitting = warm family care, not stock stock.
- */
 const IMG = {
-  /* Victoria Harbour night & dusk — Hong Kong only */
   hero: base("photo-1536599018102-9f803c140fc1"),
   hero2: base("photo-1518684079-3c830dcef090"),
-
-  /* Welcome — refined modern residence interior */
   welcome: base("photo-1600607687939-ce8a6c25118c"),
-
-  /* Bodyguard / chauffeur — black luxury executive sedan at night */
+  /* Black executive sedan — not a blue Fiat */
   bodyguard: base("photo-1618843479313-40f8afb4b4d8"),
-
-  /* Dog — calm premium lifestyle */
   dog: base("photo-1548199973-03cce0bbc87b"),
-
-  /* Babysitting — elegant mother with children, soft light */
+  /* Warm family / babysitting */
   babysitting: base("photo-1609220136736-997d3f0e6e4b"),
-
-  /* Social — refined evening dining atmosphere */
   social: base("photo-1559339352-11d035aa65de"),
-
-  /* Fine dining — plated haute cuisine */
   dining: base("photo-1414235077428-338989a2e8c0"),
-
-  /* Admin — organised professional desk, calm */
   admin: base("photo-1454165804606-c3d57bc86b40"),
 };
 
 export const HERO_IMAGES = [IMG.hero, IMG.hero2];
 
-/** Cinematic free stock — urban night skyline (loop). Poster remains HK. */
-export const HERO_VIDEO =
-  "https://cdn.coverr.co/videos/coverr-aerial-view-of-city-lights-at-night-5633/1080p.mp4";
+export { HERO_VIDEO, HERO_VIDEO_MOBILE } from "./media";
 
 export const services: Service[] = [
   {
@@ -315,7 +295,10 @@ export const services: Service[] = [
   {
     slug: "administrative-concierge",
     image: IMG.admin,
-    alt: { en: "Organised executive desk — calm administrative support", zh: "有序的行政書桌 — 從容的文書支援" },
+    alt: {
+      en: "Organised executive desk — calm administrative support",
+      zh: "有序的行政書桌 — 從容的文書支援",
+    },
     name: { en: "Administrative Concierge", zh: "行政事務助理" },
     tagline: { en: "Your errands and paperwork, handled.", zh: "您的瑣事與文書，交由我們處理。" },
     fromHkd: 300,
